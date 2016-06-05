@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "install": "echo \"Remember to\nsudo apt-gate update\nsudo apt-gate install imagemagick\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

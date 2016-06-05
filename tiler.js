@@ -1,10 +1,9 @@
 'use strict';
 var constants = require('./constants.js');
-var rimraf = require('rimraf');
-var mkdirp = require('mkdirp');
 var execSync = require('child_process').execSync;
 var sizeOf = require('image-size');
 var cleanPath = require('./util.js').cleanPath;
+var fs = require('fs');
 
 function tile(inPath, outPath, zoom) {
     console.log(inPath, outPath);
@@ -36,6 +35,8 @@ function tileRec(inPath, outPath, zoom) {
                 var newZoom = zoom + 1;
                 var newInPath = inPath + '-'+ newZoom + '.png';
                 execSync('convert ' + inPathMpc + ' -resize 50% '+ newInPath);
+                fs.unlinkSync(inPathMpc);
+                fs.unlinkSync(inPath + '.cache');
                 return tileRec(newInPath, outPath, newZoom);
             }
         });

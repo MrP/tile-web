@@ -33,6 +33,11 @@ module.exports.screenshotPage = function screenshot(pageName) {
         
         execSync('convert '+listHorizontal.join(' ')+' +append ' + outPath + constants.SCREENSHOT_FILENAME);
 
+        fs.readdirSync(outPath)
+            .filter(/./.test.bind(/(\.mpc|\.cache)$/))
+            .map(filename => outPath + filename)
+            .forEach(fs.unlinkSync);
+
         return pageName;
     });
 };

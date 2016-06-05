@@ -4,7 +4,7 @@ var system = require('system');
 var fs = require('fs');
 var constants = require('./constants.js');
 const SILLY_LIMIT = 30000;
-var execSync = require('child_process').execSync;
+// var execSync = require('child_process').execSync;
 
 page.onConsoleMessage = function(msg) {
   console.log(msg);
@@ -48,15 +48,8 @@ page.open(url, function () {
         }
         name = screenshotFile + '_' + i +'.png';
         console.log('converting into ', name);
-        // execSync('convert '+files.join(' ')+' -append ' + name);
         filesAcross.push(name);
-        //convert image1.jpg image2.jpg -append output.jpg
     }
-    //convert image1.jpg image2.jpg +append output.jpg
-    // execSync('convert '+filesAcross.join(' ')+' +append '+screenshotFile);
-
-
-
 
     console.log('rendered', url, 'to', screenshotFile);
     page.includeJs(
