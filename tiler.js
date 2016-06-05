@@ -43,7 +43,7 @@ function tileRec(inPath, outPath, zoom) {
 
 module.exports.tilePage = function (pageName) {
     const outPath = constants.PAGE_TILES_PATH + pageName ;
-    const inPath = constants.PAGE_SCREENSHOTS_PATH + pageName + '/all.png';
+    const inPath = constants.PAGE_SCREENSHOTS_PATH + pageName + '/' + constants.SCREENSHOT_FILENAME;
     return cleanPath(outPath)
         .then(()=>tileRec(inPath, outPath, 0))
         .then(() => pageName)
