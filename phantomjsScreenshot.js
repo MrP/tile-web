@@ -3,6 +3,8 @@ var page = require('webpage').create();
 var system = require('system');
 var fs = require('fs');
 var constants = require('./constants.js');
+const SILLY_LIMIT = 30000;
+var execSync = require('child_process').execSync;
 
 page.onConsoleMessage = function(msg) {
   console.log(msg);
@@ -16,7 +18,50 @@ console.log('opening', url);
 page.open(url, function () {
     console.log('opened', url);
     // page.render(screenshotFile, {quality: '100'});
-    page.render(screenshotFile);
+    var rect = page.evaluate(function () {
+        var body = document.body,
+            html = document.documentElement;
+
+        var height = Math.max( body.scrollHeight, body.offsetHeight,
+            html.clientHeight, html.scrollHeight, html.offsetHeight );
+        var width = Math.max( body.scrollWidth, body.offsetWidth,
+            html.clientWidth, html.scrollWidth, html.offsetWidth );
+
+        return {width: width, height: height};
+    });
+    // if (rect.height < SILLY_LIMIT && rect.width < SILLY_LIMIT) {
+    //     page.render(screenshotFile);
+    // } else {
+        console.log('The page is very big', rect.width, rect.height);
+        var filesAcross = [];
+    var i,j, name;
+        for (i=0; i < rect.width; i += SILLY_LIMIT) {
+            var files = [];
+            for (j=0; j < rect.height; j += SILLY_LIMIT) {
+                page.clipRect = {
+                    left: SILLY_LIMIT * i,
+                    top: SILLY_LIMIT * j,
+                    width: Math.min(SILLY_LIMIT, rect.width - SILLY_LIMIT * i),
+                    height: Math.min(SILLY_LIMIT, rect.height - SILLY_LIMIT * j)
+                };
+                name = screenshotFile + '_' + i + '_' + j + '.png';
+                console.log('rendering ', name, page.clipRect.top, page.clipRect.left, page.clipRect.width, page.clipRect.height);
+                page.render(name);
+                files.push(name);
+            }
+            name = screenshotFile + '_' + i +'.png';
+            console.log('converting into ', name);
+            // execSync('convert '+files.join(' ')+' -append ' + name);
+            filesAcross.push(name);
+            //convert image1.jpg image2.jpg -append output.jpg
+        }
+        //convert image1.jpg image2.jpg +append output.jpg
+        // execSync('convert '+filesAcross.join(' ')+' +append '+screenshotFile);
+    // }
+
+
+
+
     console.log('rendered', url, 'to', screenshotFile);
     page.includeJs(
         'http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js',
