@@ -29,35 +29,31 @@ page.open(url, function () {
 
         return {width: width, height: height};
     });
-    // if (rect.height < SILLY_LIMIT && rect.width < SILLY_LIMIT) {
-    //     page.render(screenshotFile);
-    // } else {
-        console.log('The page is very big', rect.width, rect.height);
-        var filesAcross = [];
+    console.log('The page is very big', rect.width, rect.height);
+    var filesAcross = [];
     var i,j, name;
-        for (i=0; i < rect.width; i += SILLY_LIMIT) {
-            var files = [];
-            for (j=0; j < rect.height; j += SILLY_LIMIT) {
-                page.clipRect = {
-                    left: SILLY_LIMIT * i,
-                    top: SILLY_LIMIT * j,
-                    width: Math.min(SILLY_LIMIT, rect.width - SILLY_LIMIT * i),
-                    height: Math.min(SILLY_LIMIT, rect.height - SILLY_LIMIT * j)
-                };
-                name = screenshotFile + '_' + i + '_' + j + '.png';
-                console.log('rendering ', name, page.clipRect.top, page.clipRect.left, page.clipRect.width, page.clipRect.height);
-                page.render(name);
-                files.push(name);
-            }
-            name = screenshotFile + '_' + i +'.png';
-            console.log('converting into ', name);
-            // execSync('convert '+files.join(' ')+' -append ' + name);
-            filesAcross.push(name);
-            //convert image1.jpg image2.jpg -append output.jpg
+    for (i=0; i < rect.width; i += SILLY_LIMIT) {
+        var files = [];
+        for (j=0; j < rect.height; j += SILLY_LIMIT) {
+            page.clipRect = {
+                left: i,
+                top: j,
+                width: Math.min(SILLY_LIMIT, rect.width - i),
+                height: Math.min(SILLY_LIMIT, rect.height - j)
+            };
+            name = screenshotFile + '_' + i + '_' + j + '.png';
+            console.log('rendering ', name, page.clipRect.top, page.clipRect.left, page.clipRect.width, page.clipRect.height);
+            page.render(name);
+            files.push(name);
         }
-        //convert image1.jpg image2.jpg +append output.jpg
-        // execSync('convert '+filesAcross.join(' ')+' +append '+screenshotFile);
-    // }
+        name = screenshotFile + '_' + i +'.png';
+        console.log('converting into ', name);
+        // execSync('convert '+files.join(' ')+' -append ' + name);
+        filesAcross.push(name);
+        //convert image1.jpg image2.jpg -append output.jpg
+    }
+    //convert image1.jpg image2.jpg +append output.jpg
+    // execSync('convert '+filesAcross.join(' ')+' +append '+screenshotFile);
 
 
 

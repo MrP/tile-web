@@ -12,7 +12,9 @@ module.exports = function(grunt) {
             }
         },
         clean: {
-            build: ['build/']
+            build: ['build/'],
+            pagetiles: ['pagetiles/'],
+            screenshots: ['screenshots/']
         },
         copy: {
             site: {
