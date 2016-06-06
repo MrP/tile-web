@@ -5,7 +5,7 @@ var fs = require('fs');
 
 
 module.exports.screenshotPage = function screenshot(pageName) {
-    const outPath = constants.PAGE_SCREENSHOTS_PATH + pageName + '/';
+    const outPath = constants.PAGE_SCREENSHOTS_PATH + '/';
     return cleanPath(outPath).then(() => {
         var command = 'node_modules/phantomjs-prebuilt/bin/phantomjs phantomjsScreenshot.js ' + constants.BASE_URL + '/' + pageName + ' ' + outPath;
         execSync(command);

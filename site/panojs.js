@@ -1,3 +1,96 @@
+
+// Create a method callback on a javascript objects.
+// Used for event handlers binding an object instance
+// to a method invocation.  
+// Usage:
+//  on_event =  callback (m, 'some_method' [, arg1, ... ])
+// When the event fires the callback will be called with 
+// both the static arguments and the dynamic arguments provided
+// by the event 
+// Example:
+//   m.some_method([arg1, arg,..., evt_arg1, evt_arg2, ...])
+//
+
+function callback (obj, method) {
+    var thisobj = obj;
+    var thismeth = (typeof method == "string")?thisobj[method]:method;
+    var thisextra = Array.prototype.slice.call(arguments,2);
+    
+    return function () {
+        var args = Array.prototype.slice.call(arguments);
+        return thismeth.apply (thisobj, thisextra.concat(args));
+    };
+}
+
+function isClientPhone () {
+    // Apple
+    if (navigator.userAgent.indexOf("iPhone")>=0) return true;
+    if (navigator.userAgent.indexOf("iPod")>=0) return true;    
+
+    // Google
+    if (navigator.userAgent.toLowerCase().indexOf("android")>=0) return true;      
+    
+    // Nokia
+    if (navigator.userAgent.toLowerCase().indexOf("series60")>=0 &&
+        navigator.userAgent.toLowerCase().indexOf("webkit")>=0) return true;   
+    if (navigator.userAgent.toLowerCase().indexOf("symbian")>=0 &&
+        navigator.userAgent.toLowerCase().indexOf("webkit")>=0) return true; 
+    
+    // RIM
+    if (navigator.userAgent.toLowerCase().indexOf("blackberry")>=0) return true;      
+    
+    // Palm/HP
+    if (navigator.userAgent.toLowerCase().indexOf("palm")>=0) return true;      
+    if (navigator.userAgent.toLowerCase().indexOf("webos")>=0) return true;      
+
+    // Mcrosoft
+    if (navigator.userAgent.indexOf("Windows Phone OS")>=0) return true;  
+    if (navigator.userAgent.indexOf("IEMobile")>=0) return true;      
+    
+    return false;
+}
+
+function isClientTouch () {
+    // Apple
+    if (navigator.userAgent.indexOf("iPad")>=0) return true;
+    if (navigator.userAgent.indexOf("iPhone")>=0) return true;
+    if (navigator.userAgent.indexOf("iPod")>=0) return true;   
+    
+    // Google
+    if (navigator.userAgent.toLowerCase().indexOf("android")>=0) return true;    
+
+    // Nokia
+    if (navigator.userAgent.toLowerCase().indexOf("series60")>=0 &&
+        navigator.userAgent.toLowerCase().indexOf("webkit")>=0) return true;   
+    if (navigator.userAgent.toLowerCase().indexOf("symbian")>=0 &&
+        navigator.userAgent.toLowerCase().indexOf("webkit")>=0) return true; 
+    
+    // RIM
+    if (navigator.userAgent.toLowerCase().indexOf("blackberry")>=0 &&
+        navigator.userAgent.toLowerCase().indexOf("webkit")>=0) return true;   
+    if (navigator.userAgent.toLowerCase().indexOf("playbook")>=0 &&
+        navigator.userAgent.toLowerCase().indexOf("webkit")>=0) return true;   
+        
+    // Palm/HP    
+    if (navigator.userAgent.toLowerCase().indexOf("webos")>=0) return true;      
+    
+    // Mcrosoft
+    if (navigator.userAgent.indexOf("Windows Phone OS")>=0) return true;         
+    
+    return false;
+}
+
+function isIE () {
+    if (navigator.appName == 'Microsoft Internet Explorer') return true;  
+    return false;
+}
+
+function isMobileSafari () {
+  if (navigator.userAgent.toLowerCase().indexOf("mobile")>=0 &&
+      navigator.userAgent.toLowerCase().indexOf("safari")>=0
+      ) return true; 
+}
+
 /*******************************************************************************
  Panoramic JavaScript Image Viewer (PanoJS) 2.0.0
  aka GSV 3.0 aka Giant-Ass Image Viewer 3
@@ -530,7 +623,11 @@ PanoJS.prototype.assignTileImage = function(tile) {
           if (isIE() && tileImg.offsetWidth>0 && tileImg.offsetHeight>0) { // damn IE does not have naturalWidth ...
             tileImg.style.width = tileImg.offsetWidth*scale + 'px';
             tileImg.style.height = tileImg.offsetHeight*scale + 'px';         
+          } else {
+            tileImg.style.width = this.tileSize*scale + 'px';
+            tileImg.style.height = this.tileSize*scale + 'px'; 
           }          
+          
           well.replaceChild(tileImg, loadingImg);
           tile.element = tileImg;
         } else {
@@ -721,7 +818,8 @@ PanoJS.prototype.resetCache = function() {
     
 // Remove all tiles from the well, which effectively "hides"
 // them for a repaint.
-PanoJS.prototype.blank = function() {      
+PanoJS.prototype.blank = function() {
+  var imgId;
     for (imgId in this.cache) {
       var img = this.cache[imgId];
       if (!img) continue;
@@ -1267,5 +1365,124 @@ assembleUrl: function(xIndex, yIndex, zoom) {
     this.prefix + zoom + '-' + xIndex + '-' + yIndex + '.' + this.extension +
     (PanoJS.REVISION_FLAG ? '?r=' + PanoJS.REVISION_FLAG : '');
 }
+}
+
+/*******************************************************************************
+  Controls - creates buttons for zooming and, full screen 
+  
+  GSV 3.0 : PanoJS3
+  @author Dmitry Fedorov  <fedorov@ece.ucsb.edu>   
+  
+  Copyright (c) 2010 Dmitry Fedorov, Center for Bio-Image Informatics
+  
+  using: isClientTouch() and isClientPhone() from utils.js
+
+*******************************************************************************/
+
+PanoJS.CONTROL_IMAGE_ZOOMIN   = "images/32px_plus.png";
+PanoJS.CONTROL_IMAGE_ZOOM11   = "images/32px_11.png";
+PanoJS.CONTROL_IMAGE_ZOOMOUT  = "images/32px_minus.png";
+PanoJS.CONTROL_IMAGE_MAXIMIZE = "images/32px_show.png";
+
+PanoJS.CONTROL_IMAGE_ZOOMIN_TOUCH   = "images/64px_plus.png";
+PanoJS.CONTROL_IMAGE_ZOOM11_TOUCH   = "images/64px_11.png";
+PanoJS.CONTROL_IMAGE_ZOOMOUT_TOUCH  = "images/64px_minus.png";
+PanoJS.CONTROL_IMAGE_MAXIMIZE_TOUCH = "images/64px_show.png";
+
+PanoJS.CONTROL_STYLE = "position: absolute; z-index: 30; "; //opacity:0.5; filter:alpha(opacity=50); ";
+
+PanoJS.CONTROL_ZOOMIN = {
+    className : "zoomIn",
+    image : (isClientTouch() ? PanoJS.CONTROL_IMAGE_ZOOMIN_TOUCH : PanoJS.CONTROL_IMAGE_ZOOMIN),
+    title : "Zoom in",
+    style : PanoJS.CONTROL_STYLE + " top: 10px; left: 10px; width: 20px;",
+};
+
+PanoJS.CONTROL_ZOOM11 = {
+    className : "zoom11",
+    image : (isClientTouch() ? PanoJS.CONTROL_IMAGE_ZOOM11_TOUCH : PanoJS.CONTROL_IMAGE_ZOOM11),
+    title : "Zoom 1:1",
+    style : PanoJS.CONTROL_STYLE + " top: 40px; left: 10px; width: 20px;",
+};
+
+PanoJS.CONTROL_ZOOMOUT = {
+    className : "zoomOut",
+    image : (isClientTouch() ? PanoJS.CONTROL_IMAGE_ZOOMOUT_TOUCH : PanoJS.CONTROL_IMAGE_ZOOMOUT),
+    title : "Zoom out",
+    style : PanoJS.CONTROL_STYLE + " top: 70px; left: 10px; width: 20px;",
+};
+
+PanoJS.CONTROL_MAXIMIZE = {
+    className : "maximize",
+    image : (isClientTouch() ? PanoJS.CONTROL_IMAGE_MAXIMIZE_TOUCH : PanoJS.CONTROL_IMAGE_MAXIMIZE),
+    title : "Maximize",
+    style : PanoJS.CONTROL_STYLE + " top: 10px; right: 10px; width: 20px;",
+};
+
+if (isClientTouch()) {
+  PanoJS.CONTROL_ZOOMIN.style   = PanoJS.CONTROL_STYLE + " top: 15px;  left: 15px;  width: 36px;";
+  PanoJS.CONTROL_ZOOM11.style   = PanoJS.CONTROL_STYLE + " top: 75px;  left: 15px;  width: 36px;";
+  PanoJS.CONTROL_ZOOMOUT.style  = PanoJS.CONTROL_STYLE + " top: 135px; left: 15px;  width: 36px;";
+  PanoJS.CONTROL_MAXIMIZE.style = PanoJS.CONTROL_STYLE + " top: 15px;  right: 15px; width: 36px;";
+}
+
+if (isClientPhone()) {
+  PanoJS.CONTROL_ZOOMIN.style   = PanoJS.CONTROL_STYLE + " top: 30px;  left: 30px;  width: 96px;";
+  PanoJS.CONTROL_ZOOM11.style   = PanoJS.CONTROL_STYLE + " top: 180px; left: 30px;  width: 96px;";
+  PanoJS.CONTROL_ZOOMOUT.style  = PanoJS.CONTROL_STYLE + " top: 320px; left: 30px;  width: 96px;";
+  PanoJS.CONTROL_MAXIMIZE.style = PanoJS.CONTROL_STYLE + " top: 30px;  right: 30px; width: 96px;";
+}
+
+
+
+function PanoControls(viewer) {
+    this.viewer = viewer;  
+    this.initControls();
+    this.createDOMElements();
+}
+
+PanoControls.prototype.initControls = function() {
+  if (PanoJS.CONTROL_UPDATED_URLS) return;
+  PanoJS.CONTROL_ZOOMIN.image   = PanoJS.STATIC_BASE_URL+PanoJS.CONTROL_ZOOMIN.image;
+  PanoJS.CONTROL_ZOOM11.image   = PanoJS.STATIC_BASE_URL+PanoJS.CONTROL_ZOOM11.image;
+  PanoJS.CONTROL_ZOOMOUT.image  = PanoJS.STATIC_BASE_URL+PanoJS.CONTROL_ZOOMOUT.image;
+  PanoJS.CONTROL_MAXIMIZE.image = PanoJS.STATIC_BASE_URL+PanoJS.CONTROL_MAXIMIZE.image;
+  PanoJS.CONTROL_UPDATED_URLS   = true;
+}
+
+PanoControls.prototype.createDOMElements = function() {
+    this.dom_element = this.viewer.viewerDomElement();
+      
+    this.createButton (PanoJS.CONTROL_ZOOMIN);
+    this.createButton (PanoJS.CONTROL_ZOOM11);
+    this.createButton (PanoJS.CONTROL_ZOOMOUT);
+    this.createButton (PanoJS.CONTROL_MAXIMIZE);  
+}
+
+PanoControls.prototype.createButton = function(control) {
+      
+    var className = control.className;
+    var src = control.image;
+    var title = control.title;
+    var style = control.style;
+    
+    var btn = document.createElement('span');
+    btn.className = className;
+    this.dom_element.appendChild(btn); 
+
+    if (style) {
+      btn.setAttribute("style", style);
+      btn.style.cssText = style;   
+    }
+    
+    var img = document.createElement('img');
+    img.src = src;
+    if (title) img.title = title;
+    if (btn.style.width) img.style.width = btn.style.width;
+    btn.appendChild(img);    
+    
+    btn.onclick = callback(this.viewer, this.viewer[btn.className + 'Handler']); 
+                
+    return btn;
 }
 

@@ -22,13 +22,19 @@ module.exports = function(grunt) {
                 dest: 'build/'
             },
             tiles: {
-                src: ['pagetiles/**/*'],
+                src: ['pagetiles/*'],
+                dest: 'build/site/'
+            },
+            metadata: {
+                cwd: 'screenshots/',
+                expand: true,
+                src: ['metadata.js'],
                 dest: 'build/site/'
             }
         }
     });
 
-    grunt.registerTask('build', ['clean:build', 'copy:site', 'copy:tiles']);
+    grunt.registerTask('build', ['clean:build', 'copy:site', 'copy:tiles', 'copy:metadata']);
 
     grunt.registerTask('server', ['http-server:build']);
     grunt.registerTask('default', ['build', 'server']);

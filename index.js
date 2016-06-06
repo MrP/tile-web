@@ -2,8 +2,8 @@
 var tilePage = require('./tiler.js').tilePage;
 var screenshotPage = require('./screenshoter.js').screenshotPage;
 
-// const PAGE_NAME = 'page548.html';
-const PAGE_NAME = 'subnormality.html';
+const PAGE_NAME = 'page548.html';
+// const PAGE_NAME = 'subnormality.html';
 
 Promise.resolve()
 .then(() => screenshotPage(PAGE_NAME))

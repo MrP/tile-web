@@ -1,3 +1,56 @@
+/*global PanoJS, metadata*/
+var imageWidth = metadata.width;
+var imageHeight = metadata.height;
+
+PanoJS.MSG_BEYOND_MIN_ZOOM = null;
+PanoJS.MSG_BEYOND_MAX_ZOOM = null;
+PanoJS.CREATE_CONTROLS = true;
+PanoJS.CREATE_INFO_CONTROLS = false;
+PanoJS.CREATE_OSD_CONTROLS = false;
+PanoJS.CREATE_THUMBNAIL_CONTROLS = false;
+PanoJS.USE_WHEEL_FOR_ZOOM = false;
+PanoJS.GRAB_MOUSE_CURSOR = '-webkit-grab';
+PanoJS.GRABBING_MOUSE_CURSOR = '-webkit-grabbing';
+PanoJS.USE_LOADER_IMAGE = false;
+PanoJS.USE_SLIDE = true;
+
+
+function createViewer(dom_id, url, prefix, w, h) {
+    var viewer;
+    var MY_URL = url;
+    var MY_PREFIX = prefix;
+    var MY_TILESIZE = 256;
+    var MY_WIDTH = w;
+    var MY_HEIGHT = h;
+    var myPyramid = new VictorPyramid(MY_WIDTH, MY_HEIGHT, MY_TILESIZE);
+
+    var myProvider = new PanoJS.TileUrlProvider('', '', 'png');
+    myProvider.assembleUrl = function (xIndex, yIndex, zoom) {
+        return MY_URL + '/' + MY_PREFIX + myPyramid.tile_filename(
+            zoom, xIndex, yIndex);
+    };
+
+    viewer = new PanoJS(dom_id, {
+        tileUrlProvider: myProvider,
+        tileSize: myPyramid.tilesize,
+        maxZoom: myPyramid.getMaxLevel(),
+        initialZoom: myPyramid.getMaxLevel(),
+        initialPan: {
+            x: 0,
+            y: 0
+        },
+        imageWidth: myPyramid.width,
+        imageHeight: myPyramid.height,
+        blankTile: 'images/blank.gif',
+        loadingTile: 'images/gray.png'
+    });
+
+    window.addEventListener('resize', viewer.resize.bind(viewer));
+    viewer.init();
+}
+
+
+
 
 function VictorLevel( width, height, tilesize, level ) {
     this.width = width;
@@ -10,10 +63,6 @@ function VictorLevel( width, height, tilesize, level ) {
 VictorLevel.prototype.tiles = function() {
     return this.xtiles * this.ytiles;
 };
-
-// -----------------------------------------------------
-// VictorPyramid
-// -----------------------------------------------------
 
 function VictorPyramid( width, height, tilesize ) {
     this.width = width;
@@ -68,7 +117,9 @@ VictorPyramid.prototype.tile_index = function( level, x_coordinate, y_coordinate
 };
 
 VictorPyramid.prototype.tile_filename = function( level, x_coordinate, y_coordinate ) {
-    // var l = this.getMaxLevel() - this.getLevel(level).level;
     var l = this.getLevel(level).level;
     return '' + l + '_' + x_coordinate + '_' + y_coordinate + '.png';
 };
+
+
+createViewer('viewer1', 'pagetiles/', 'tile_', imageWidth,  imageHeight);

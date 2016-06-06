@@ -112,7 +112,7 @@ page.open(url, function () {
     });
 
     var metadataJson = JSON.stringify(metadata);
-    fs.write(linksFile, metadataJson, 'w');
+    fs.write(linksFile, 'var metadata='+metadataJson+';', 'w');
     phantom.exit();
 });
 
