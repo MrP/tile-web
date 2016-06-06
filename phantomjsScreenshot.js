@@ -11,8 +11,32 @@ const screenshotFile = system.args[2] + '/' + constants.SCREENSHOT_FILENAME;
 const url = system.args[1];
 
 page.open(url, function () {
-    var metadata = {};
-    // page.render(screenshotFile, {quality: '100'});
+    var metadata = {
+        baseUrl: constants.BASE_URL,
+        pageName: constants.PAGE_NAME
+    };
+    metadata.scripts = page.evaluate(function () {
+        return [].slice.call(document.querySelectorAll('script'))
+            .map(function (script) {
+                return {
+                    src: script.getAttribute('src')
+                };
+            });
+    });
+    metadata.metas = page.evaluate(function () {
+        return [].slice.call(document.querySelectorAll('meta'))
+            .map(function (meta) {
+                return {
+                    html: meta.outerHTML
+                };
+            });
+    });
+    metadata.title = page.evaluate(function () {
+        var title = document.querySelector('title');
+        if (title) {
+            return title.innerHTML;
+        }
+    });
     var rect = page.evaluate(function () {
         var body = document.body,
             html = document.documentElement;

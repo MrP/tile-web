@@ -14,7 +14,6 @@ PanoJS.GRABBING_MOUSE_CURSOR = '-webkit-grabbing';
 PanoJS.USE_LOADER_IMAGE = false;
 PanoJS.USE_SLIDE = true;
 
-
 function createViewer(dom_id, url, prefix, w, h) {
     var viewer;
     var MY_URL = url;
@@ -48,9 +47,6 @@ function createViewer(dom_id, url, prefix, w, h) {
     window.addEventListener('resize', viewer.resize.bind(viewer));
     viewer.init();
 }
-
-
-
 
 function VictorLevel( width, height, tilesize, level ) {
     this.width = width;
@@ -120,6 +116,5 @@ VictorPyramid.prototype.tile_filename = function( level, x_coordinate, y_coordin
     var l = this.getLevel(level).level;
     return '' + l + '_' + x_coordinate + '_' + y_coordinate + '.png';
 };
-
 
 createViewer('viewer1', 'pagetiles/', 'tile_', imageWidth,  imageHeight);
