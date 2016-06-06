@@ -58,12 +58,32 @@ page.open(url, function () {
         }
 
         var rects = [];
+        [].slice.call(document.querySelectorAll('*[onclick]'))
+            .filter(function (el) {
+                return el.tagName.toUpperCase() !== 'A';
+            })
+            .forEach(function (element) {
+                if (element.offsetWidth && element.offsetHeight) {
+                    rects.push({
+                        type: 'onclick',
+                        tagName: element.tagName,
+                        onclick: element.getAttribute('onclick'),
+                        top: offset(element).top,
+                        left: offset(element).left,
+                        outerWidth: element.offsetWidth,
+                        outerHeight: element.offsetHeight
+                    });
+                }
+            });
+
         [].slice.call(document.querySelectorAll('a'))
             .forEach(function(a) {
                 var imgs = a.querySelectorAll('img');
                 if (imgs.length === 0) {
                     if (a.offsetWidth && a.offsetHeight) {
                         rects.push({
+                            type: 'a',
+                            tagName: a.tagName,
                             href: a.getAttribute('href'),
                             onclick: a.getAttribute('onclick'),
                             top: offset(a).top,
@@ -75,6 +95,8 @@ page.open(url, function () {
                 } else {
                     [].slice.call(imgs).forEach(function (img) {
                         rects.push({
+                            type: 'a img',
+                            tagName: img.tagName,
                             href: a.getAttribute('href'),
                             onclick: a.getAttribute('onclick'),
                             top: offset(img).top,
