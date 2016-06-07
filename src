@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    
+    <title>black currant</title>
+    <link href="styles.css" rel="stylesheet">
+    
+  </head>
+  <body>
+    <div id="viewer1" class="viewer" style="width: 100vw; height: 100vh;"></div>
+    <script>
+      var ORIGINAL_PAGE_DIMENSIONS = ;
+      var ORIGINAL_PAGE_LINKS = ;
+    </script>
+    <script type="text/javascript" src="files/panojs.js"></script>
+    <script type="text/javascript" src="files/metadata.js"></script>
+    <script type="text/javascript" src="files/victor.js"></script>
+  </body>
+</html>

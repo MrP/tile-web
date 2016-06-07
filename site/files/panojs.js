@@ -1,3 +1,4 @@
+/*global FILES_DIR, navigator*/
 
 // Create a method callback on a javascript objects.
 // Used for event handlers binding an object instance
@@ -1379,15 +1380,14 @@ assembleUrl: function(xIndex, yIndex, zoom) {
 
 *******************************************************************************/
 
-PanoJS.CONTROL_IMAGE_ZOOMIN   = "images/32px_plus.png";
-PanoJS.CONTROL_IMAGE_ZOOM11   = "images/32px_11.png";
-PanoJS.CONTROL_IMAGE_ZOOMOUT  = "images/32px_minus.png";
-PanoJS.CONTROL_IMAGE_MAXIMIZE = "images/32px_show.png";
-
-PanoJS.CONTROL_IMAGE_ZOOMIN_TOUCH   = "images/64px_plus.png";
-PanoJS.CONTROL_IMAGE_ZOOM11_TOUCH   = "images/64px_11.png";
-PanoJS.CONTROL_IMAGE_ZOOMOUT_TOUCH  = "images/64px_minus.png";
-PanoJS.CONTROL_IMAGE_MAXIMIZE_TOUCH = "images/64px_show.png";
+PanoJS.CONTROL_IMAGE_MAXIMIZE = FILES_DIR + "/32px_show.png";
+PanoJS.CONTROL_IMAGE_MAXIMIZE_TOUCH = FILES_DIR + "/64px_show.png";
+PanoJS.CONTROL_IMAGE_ZOOMIN   = FILES_DIR + '/32px_plus.png';
+PanoJS.CONTROL_IMAGE_ZOOM11   = FILES_DIR + '/32px_11.png';
+PanoJS.CONTROL_IMAGE_ZOOMOUT  = FILES_DIR + '/32px_minus.png';
+PanoJS.CONTROL_IMAGE_ZOOMIN_TOUCH   = FILES_DIR + '/32px_plus.png';
+PanoJS.CONTROL_IMAGE_ZOOM11_TOUCH   = FILES_DIR + '/32px_11.png';
+PanoJS.CONTROL_IMAGE_ZOOMOUT_TOUCH  = FILES_DIR + '/32px_minus.png';
 
 PanoJS.CONTROL_STYLE = "position: absolute; z-index: 30; "; //opacity:0.5; filter:alpha(opacity=50); ";
 
@@ -1456,7 +1456,7 @@ PanoControls.prototype.createDOMElements = function() {
     this.createButton (PanoJS.CONTROL_ZOOMIN);
     this.createButton (PanoJS.CONTROL_ZOOM11);
     this.createButton (PanoJS.CONTROL_ZOOMOUT);
-    this.createButton (PanoJS.CONTROL_MAXIMIZE);  
+    // this.createButton (PanoJS.CONTROL_MAXIMIZE);  
 }
 
 PanoControls.prototype.createButton = function(control) {

@@ -1,6 +1,6 @@
-/*global PanoJS, metadata*/
-var imageWidth = metadata.width;
-var imageHeight = metadata.height;
+/*global PanoJS, ORIGINAL_PAGE_DIMENSIONS, FILES_DIR*/
+var imageWidth = ORIGINAL_PAGE_DIMENSIONS.width;
+var imageHeight = ORIGINAL_PAGE_DIMENSIONS.height;
 
 PanoJS.MSG_BEYOND_MIN_ZOOM = null;
 PanoJS.MSG_BEYOND_MAX_ZOOM = null;
@@ -13,6 +13,14 @@ PanoJS.GRAB_MOUSE_CURSOR = '-webkit-grab';
 PanoJS.GRABBING_MOUSE_CURSOR = '-webkit-grabbing';
 PanoJS.USE_LOADER_IMAGE = false;
 PanoJS.USE_SLIDE = true;
+PanoJS.CONTROL_IMAGE_ZOOMIN   = FILES_DIR + '/32px_plus.png';
+PanoJS.CONTROL_IMAGE_ZOOM11   = FILES_DIR + '/32px_11.png';
+PanoJS.CONTROL_IMAGE_ZOOMOUT  = FILES_DIR + '/32px_minus.png';
+PanoJS.CONTROL_IMAGE_ZOOMIN_TOUCH   = FILES_DIR + '/32px_plus.png';
+PanoJS.CONTROL_IMAGE_ZOOM11_TOUCH   = FILES_DIR + '/32px_11.png';
+PanoJS.CONTROL_IMAGE_ZOOMOUT_TOUCH  = FILES_DIR + '/32px_minus.png';
+
+
 
 function createViewer(dom_id, url, prefix, w, h) {
     var viewer;
@@ -40,8 +48,8 @@ function createViewer(dom_id, url, prefix, w, h) {
         },
         imageWidth: myPyramid.width,
         imageHeight: myPyramid.height,
-        blankTile: 'images/blank.gif',
-        loadingTile: 'images/gray.png'
+        blankTile: FILES_DIR + '/blank.gif',
+        loadingTile: FILES_DIR + '/gray.png'
     });
 
     window.addEventListener('resize', viewer.resize.bind(viewer));
@@ -65,12 +73,12 @@ function VictorPyramid( width, height, tilesize ) {
     this.height = height;
     this.tilesize = tilesize;
     this._pyramid = [];
-    
+
     var level_id = 0;
     var level_width = width;
     var level_height = height;
     var min_size = (tilesize / 2) + 1;
-    while (level_width > min_size || level_height > min_size ) {      
+    while (level_width > min_size || level_height > min_size ) {
     //while (level_width > tilesize | level_height > tilesize ) {
         var level = new VictorLevel( level_width, level_height, tilesize, level_id );
         this._pyramid.push( level );
@@ -79,13 +87,13 @@ function VictorPyramid( width, height, tilesize ) {
         level_id++;
     }
     this._pyramid.reverse();
-    
+
     this.length = this._pyramid.length;
     this.levels = this._pyramid.length;
 }
 
 VictorPyramid.prototype.getMaxLevel = function() {
-    return this.levels - 1;    
+    return this.levels - 1;
 };
 
 VictorPyramid.prototype.getLevel = function( level ) {
@@ -117,4 +125,4 @@ VictorPyramid.prototype.tile_filename = function( level, x_coordinate, y_coordin
     return '' + l + '_' + x_coordinate + '_' + y_coordinate + '.png';
 };
 
-createViewer('viewer1', 'pagetiles/', 'tile_', imageWidth,  imageHeight);
+createViewer('viewer1', FILES_DIR + '/pagetiles/', 'tile_', imageWidth,  imageHeight);

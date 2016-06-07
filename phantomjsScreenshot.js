@@ -19,7 +19,8 @@ page.open(url, function () {
         return [].slice.call(document.querySelectorAll('script'))
             .map(function (script) {
                 return {
-                    src: script.getAttribute('src')
+                    src: script.src,
+                    html: script.outerHTML
                 };
             });
     });
@@ -48,8 +49,7 @@ page.open(url, function () {
 
         return {width: width, height: height};
     });
-    metadata.width = rect.width;
-    metadata.height = rect.height;
+    metadata.dimensions = {width:rect.width, height:rect.height};
     var filesAcross = [];
     var i,j, name;
     for (i=0; i < rect.width; i += SILLY_LIMIT) {
@@ -136,7 +136,7 @@ page.open(url, function () {
     });
 
     var metadataJson = JSON.stringify(metadata);
-    fs.write(linksFile, 'var metadata='+metadataJson+';', 'w');
+    fs.write(linksFile, metadataJson, 'w');
     phantom.exit();
 });
 

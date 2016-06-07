@@ -5,6 +5,6 @@ module.exports.BASE_URL = 'http://www.viruscomix.com/';
 module.exports.PAGE_TILES_PATH = 'pagetiles/';
 module.exports.PAGE_SCREENSHOTS_PATH = 'screenshots/';
 module.exports.SCREENSHOT_FILENAME = 'all.png';
-module.exports.LINKS_FILENAME = 'metadata.js';
+module.exports.LINKS_FILENAME = 'metadata.json';
 // module.exports.PAGE_NAME = 'page548.html';
 module.exports.PAGE_NAME = 'subnormality.html';
