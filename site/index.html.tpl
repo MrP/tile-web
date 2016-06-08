@@ -7,13 +7,14 @@
     <%= scripts %>
   </head>
   <body>
-    <div id="viewer1" class="viewer" style="width: 100vw; height: 100vh;"></div>
+    <div id="openseadragon1" style="width: 100vw; height: 100vh;"></div>
     <script>
       var ORIGINAL_PAGE_DIMENSIONS = <%= dimensions %>;
       var ORIGINAL_PAGE_LINKS = <%= links %>;
       var FILES_DIR = '<%= filesDir %>';
     </script>
-    <script type="text/javascript" src="<%= filesDir %>/openseadragon/openseadragon.min.js"></script>
-    <script type="text/javascript" src="<%= filesDir %>/victor.js"></script>
+    <script type="text/javascript" src="<%= filesDir %>/openseadragon/openseadragon.js"></script>
+    <script type="text/javascript" src="<%= filesDir %>/victorDragon.js"></script>
+    <!--<script type="text/javascript" src="<%= filesDir %>/victor.js"></script>-->
   </body>
 </html>

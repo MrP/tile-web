@@ -15,11 +15,15 @@ module.exports = function (grunt) {
         }
         return orig;
     }
+    function filesDir() {
+        return pageName() + '-files';
+    }
 
     require('load-grunt-tasks')(grunt);
 
     grunt.initConfig({
         pageName: pageName(),
+        filesDir: filesDir(),
         'http-server': {
             build: {
                 root: 'build/',
@@ -36,18 +40,18 @@ module.exports = function (grunt) {
             site: {
                 cwd: 'site/files',
                 expand: true,
-                src: ['*'],
-                dest: 'build/<%= pageName %>-files/'
+                src: ['*', '!image.json.tpl'],
+                dest: 'build/<%= filesDir %>/'
             },
             seadragon: {
                 cwd: 'node_modules/openseadragon/build/',
                 expand: true,
-                src: ['openseadragon/*', '!**/*.map', '!**/openseadragon.js'],
-                dest: 'build/<%= pageName %>-files/'
+                src: ['openseadragon/**/*', '!**/*.map'],
+                dest: 'build/<%= filesDir %>/'
             },
             tiles: {
                 src: ['pagetiles/*'],
-                dest: 'build/<%= pageName %>-files/'
+                dest: 'build/<%= filesDir %>/'
             }
         },
         execute: {
@@ -64,38 +68,65 @@ module.exports = function (grunt) {
                     data: {
                         title: '<%= metadata.title %>',
                         dimensions: '<%= metadata.dimensions %>',
+                        width: '<%= metadata.width %>',
+                        height: '<%= metadata.height %>',
                         links: '<%= metadata.links %>',
                         metas: '<%= metadata.metas %>',
                         scripts: '<%= metadata.scripts %>',
                         pageName: pageName(),
-                        filesDir: pageName() + '-files'
+                        filesDir: filesDir()
                     }
                 },
                 files: {
                     'build/<%= pageName %>.html': ['site/index.html.tpl'],
                 }
+            },
+            dzi: {
+                options: {
+                    data: {
+                        width: '<%= metadata.width %>',
+                        height: '<%= metadata.height %>',
+                        filesDir: filesDir()
+                    }
+                },
+                files: {
+                    'build/<%= filesDir %>/image.json': ['site/files/image.json.tpl'],
+                }
             }
         }
     });
-    
-    grunt.registerTask('build', ['clean:build', 'copy:site', 'copy:seadragon',
-        'copy:tiles', 'template:index'
-    ]);
 
-    grunt.registerTask('tile', function () {
-        grunt.task.run(['clean:screenshots', 'clean:pagetiles', 'execute:webTiler']);
+    grunt.registerTask('build', function () {
+        grunt.task.run([
+            // 'clean:build', 
+            'copy:site', 
+            'copy:seadragon', 
+            // 'copy:tiles'
+        ]);
+        dealWithMetadata();
+        grunt.task.run(['template:index', 'template:dzi']);
+    });
+
+    function dealWithMetadata() {
         var metadata = require('./screenshots/metadata.json');
         grunt.config.set('metadata', {
             title: metadata.title,
             dimensions: JSON.stringify(metadata.dimensions),
+            height: metadata.dimensions.height,
+            width: metadata.dimensions.width,
             links: JSON.stringify(metadata.links),
             metas: metadata.metas.map(function (m) {
-                    return m.html
+                    return m.html;
             }).join('\n'),
             scripts: metadata.scripts.map(function (s) {
-                return s.src ? '<script src="' + s.src + '"></script>' : s.html
+                return s.src ? '<script src="' + s.src.replace(/^https?:/, '') + '"></script>' : s.html;
             }).join('\n'),
         });
+    }
+
+    grunt.registerTask('tile', function () {
+        grunt.task.run(['clean:screenshots', 'clean:pagetiles', 'execute:webTiler']);
+        dealWithMetadata();
     });
     grunt.registerTask('server', ['http-server:build']);
     grunt.registerTask('default', ['tile', 'build', 'server']);
