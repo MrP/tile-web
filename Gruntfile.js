@@ -37,11 +37,17 @@ module.exports = function (grunt) {
                 cwd: 'site/files',
                 expand: true,
                 src: ['*'],
-                dest: 'build/files-<%= pageName %>/'
+                dest: 'build/<%= pageName %>-files/'
+            },
+            seadragon: {
+                cwd: 'node_modules/openseadragon/build/',
+                expand: true,
+                src: ['openseadragon/*', '!**/*.map', '!**/openseadragon.js'],
+                dest: 'build/<%= pageName %>-files/'
             },
             tiles: {
                 src: ['pagetiles/*'],
-                dest: 'build/files-<%= pageName %>/'
+                dest: 'build/<%= pageName %>-files/'
             }
         },
         execute: {
@@ -62,7 +68,7 @@ module.exports = function (grunt) {
                         metas: '<%= metadata.metas %>',
                         scripts: '<%= metadata.scripts %>',
                         pageName: pageName(),
-                        filesDir: 'files-' + pageName() 
+                        filesDir: pageName() + '-files'
                     }
                 },
                 files: {
@@ -72,7 +78,7 @@ module.exports = function (grunt) {
         }
     });
     
-    grunt.registerTask('build', ['clean:build', 'copy:site',
+    grunt.registerTask('build', ['clean:build', 'copy:site', 'copy:seadragon',
         'copy:tiles', 'template:index'
     ]);
 

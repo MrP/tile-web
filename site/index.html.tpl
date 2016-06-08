@@ -13,7 +13,7 @@
       var ORIGINAL_PAGE_LINKS = <%= links %>;
       var FILES_DIR = '<%= filesDir %>';
     </script>
-    <script type="text/javascript" src="<%= filesDir %>/panojs.js"></script>
+    <script type="text/javascript" src="<%= filesDir %>/openseadragon/openseadragon.min.js"></script>
     <script type="text/javascript" src="<%= filesDir %>/victor.js"></script>
   </body>
 </html>
