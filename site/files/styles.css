@@ -3,3 +3,13 @@ body {
     padding: 0;
     margin: 0;
 }
+.openseadragon-container {
+    cursor: -webkit-grab;
+    cursor: -moz-grab;
+    cursor: grab;
+}
+.openseadragon-container.victor-grabbing {
+    cursor: -webkit-grabbing;
+    cursor: -moz-grabbing;
+    cursor: grabbing;
+}

@@ -6,8 +6,8 @@ var viewer = OpenSeadragon({
     defaultZoomLevel: 1,
     minZoomLevel: 0.25,
     maxZoomLevel: 4,
-    minZoomImageRatio: 0.9,
-    maxZoomImageRatio: 0,
+    // minZoomImageRatio: 0.9,
+    // maxZoomImageRatio: 0,
     // // homeFillsViewer: true,
     // constrainDuringPan: true,
     visibilityRatio: 1,
@@ -17,7 +17,8 @@ var viewer = OpenSeadragon({
     gestureSettingsMouse: {
         scrollToZoom: false,
         clickToZoom: false,
-        pinchToZoom: true,
+        dblClickToZoom: true,
+        // pinchToZoom: true,
         flickEnabled: false
     },
     // // gestureSettingsTouch: {
@@ -42,39 +43,23 @@ var viewer = OpenSeadragon({
     }
 });
 
+viewer.addHandler('canvas-press', function (event) {
+    viewer.container.className += ' victor-grabbing';
+});
+viewer.addHandler('canvas-release', function (event) {
+    viewer.container.className = viewer.container.className.replace(/ victor-grabbing/, '');
+});
+
 viewer.addHandler('canvas-scroll', function (event) {
-    // var bounds = viewer.viewport.getBounds(true);
-    // var bottomRight = bounds.getBottomRight();
     var deltaY = event.originalEvent.deltaY;
     var deltaX = event.originalEvent.deltaX;
-    // var pointDimensions = viewer.viewport.imageToViewportCoordinates(VICTOR_ORIGINAL_PAGE_DIMENSIONS.width, VICTOR_ORIGINAL_PAGE_DIMENSIONS.height);
     var deltaPoints = viewer.viewport.deltaPointsFromPixels(new OpenSeadragon.Point(deltaX, deltaY), true);
-    // if (bounds.getTopLeft().y <= 0 && deltaPoints.y < 0) {
-    //     deltaPoints.y = 0;
-    // }
-    // if (bounds.getTopLeft().x <= 0 && deltaPoints.x < 0) {
-    //     deltaPoints.x = 0;
-    // }
-    // if (bottomRight.y >= pointDimensions.y && deltaPoints.y > 0) {
-    //     deltaPoints.y = 0;
-    // }
-    // if (bottomRight.x >= pointDimensions.x && deltaPoints.x > 0) {
-    //     deltaPoints.x = 0;
-    // }
     viewer.viewport.panBy(deltaPoints, false);
     viewer.viewport.applyConstraints(false);
 });
 
-// viewer.addHandler('animation-finish', function (args) {
-//     viewer.viewport.applyConstraints(false);
-// });
-
-
 viewer.addHandler('open', function () {
     viewer.viewport.panTo(new OpenSeadragon.Point(0, 0), true);
-    // var levelHeight = VICTOR_ORIGINAL_PAGE_DIMENSIONS.height/viewer.viewport.getContainerSize().y;
-    // var levelWidth = VICTOR_ORIGINAL_PAGE_DIMENSIONS.width/viewer.viewport.getContainerSize().x;
-    // var level = Math.max(levelHeight, levelWidth);
     var level = viewer.viewport.imageToViewportZoom(1);
     viewer.viewport.zoomTo(level, new OpenSeadragon.Point(0, 0), true);
     viewer.viewport.applyConstraints(true);
