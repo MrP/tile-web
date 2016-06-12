@@ -1,10 +1,9 @@
-/*global phantom, $*/
+/*global phantom*/
 var page = require('webpage').create();
 var system = require('system');
 var fs = require('fs');
+var renderLargePage = require('phantomjs-render-large-page').renderLargePage;
 var constants = require('./constants.js');
-const SILLY_LIMIT = 30000;
-// var execSync = require('child_process').execSync;
 
 const linksFile = system.args[2] + '/' + constants.LINKS_FILENAME;
 const screenshotFile = system.args[2] + '/' + constants.SCREENSHOT_FILENAME;
@@ -13,7 +12,7 @@ const url = system.args[1];
 page.open(url, function () {
     var metadata = {
         baseUrl: constants.BASE_URL,
-        pageName: constants.PAGE_NAME
+        pageName: url.replace(/^.*\//, ''),
     };
     metadata.scripts = page.evaluate(function () {
         return [].slice.call(document.querySelectorAll('script'))
@@ -50,24 +49,6 @@ page.open(url, function () {
         return {width: width, height: height};
     });
     metadata.dimensions = {width:rect.width, height:rect.height};
-    var filesAcross = [];
-    var i,j, name;
-    for (i=0; i < rect.width; i += SILLY_LIMIT) {
-        var files = [];
-        for (j=0; j < rect.height; j += SILLY_LIMIT) {
-            page.clipRect = {
-                left: i,
-                top: j,
-                width: Math.min(SILLY_LIMIT, rect.width - i),
-                height: Math.min(SILLY_LIMIT, rect.height - j)
-            };
-            name = screenshotFile + '_' + i + '_' + j + '.png';
-            page.render(name);
-            files.push(name);
-        }
-        name = screenshotFile + '_' + i +'.png';
-        filesAcross.push(name);
-    }
 
     metadata.links = page.evaluate(function () {
         function offset(elem) {
@@ -137,7 +118,10 @@ page.open(url, function () {
 
     var metadataJson = JSON.stringify(metadata);
     fs.write(linksFile, metadataJson, 'w');
-    phantom.exit();
+    
+    renderLargePage(page, screenshotFile, function (error) {
+        phantom.exit();
+    });
 });
 
 

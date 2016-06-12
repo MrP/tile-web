@@ -1,4 +1,14 @@
+var fs = require('fs');
+
+
 module.exports = function (grunt) {
+    function maxLevel() {
+        var reZoom = /^tile_(\d+)_/;
+        return Math.max.apply(Math, fs.readdirSync('build/'+filesDir()+'/pagetiles')
+            .filter(reZoom.test.bind(reZoom))
+            .map(file => file.match(reZoom)[1]));
+    }
+    
     function pageName() {
         if (grunt.option('newPage')) {
             return grunt.option('newPage').replace(/\.html$/i,'');
@@ -71,6 +81,7 @@ module.exports = function (grunt) {
                         width: '<%= metadata.width %>',
                         height: '<%= metadata.height %>',
                         links: '<%= metadata.links %>',
+                        maxLevel: '<%= metadata.maxLevel %>',
                         metas: '<%= metadata.metas %>',
                         scripts: '<%= metadata.scripts %>',
                         pageName: pageName(),
@@ -80,34 +91,11 @@ module.exports = function (grunt) {
                 files: {
                     'build/<%= pageName %>.html': ['site/index.html.tpl'],
                 }
-            },
-            dzi: {
-                options: {
-                    data: {
-                        width: '<%= metadata.width %>',
-                        height: '<%= metadata.height %>',
-                        filesDir: filesDir()
-                    }
-                },
-                files: {
-                    'build/<%= filesDir %>/image.json': ['site/files/image.json.tpl'],
-                }
             }
         }
     });
 
-    grunt.registerTask('build', function () {
-        grunt.task.run([
-            // 'clean:build', 
-            'copy:site', 
-            'copy:seadragon', 
-            // 'copy:tiles'
-        ]);
-        dealWithMetadata();
-        grunt.task.run(['template:index', 'template:dzi']);
-    });
-
-    function dealWithMetadata() {
+    grunt.registerTask('deal-with-metadata', function () {
         var metadata = require('./screenshots/metadata.json');
         grunt.config.set('metadata', {
             title: metadata.title,
@@ -115,18 +103,27 @@ module.exports = function (grunt) {
             height: metadata.dimensions.height,
             width: metadata.dimensions.width,
             links: JSON.stringify(metadata.links),
+            maxLevel: maxLevel(),
             metas: metadata.metas.map(function (m) {
-                    return m.html;
+                return m.html;
             }).join('\n'),
             scripts: metadata.scripts.map(function (s) {
                 return s.src ? '<script src="' + s.src.replace(/^https?:/, '') + '"></script>' : s.html;
             }).join('\n'),
         });
-    }
+    });
+    grunt.registerTask('build', function () {
+        grunt.task.run([
+            'clean:build', 
+            'copy:site', 
+            'copy:seadragon', 
+            'copy:tiles'
+        ]);
+        grunt.task.run(['deal-with-metadata', 'template:index']);
+    });
 
     grunt.registerTask('tile', function () {
         grunt.task.run(['clean:screenshots', 'clean:pagetiles', 'execute:webTiler']);
-        dealWithMetadata();
     });
     grunt.registerTask('server', ['http-server:build']);
     grunt.registerTask('default', ['tile', 'build', 'server']);

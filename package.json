@@ -30,6 +30,7 @@
     "mkdirp": "^0.5.1",
     "openseadragon": "^2.2.0",
     "phantomjs-prebuilt": "^2.1.7",
+    "phantomjs-render-large-page": "^0.2.0",
     "rimraf": "^2.5.2"
   }
 }

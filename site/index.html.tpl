@@ -9,12 +9,12 @@
   <body>
     <div id="openseadragon1" style="width: 100vw; height: 100vh;"></div>
     <script>
-      var ORIGINAL_PAGE_DIMENSIONS = <%= dimensions %>;
-      var ORIGINAL_PAGE_LINKS = <%= links %>;
-      var FILES_DIR = '<%= filesDir %>';
+      var VICTOR_ORIGINAL_PAGE_DIMENSIONS = <%= dimensions %>;
+      var VICTOR_ORIGINAL_PAGE_LINKS = <%= links %>;
+      var VICTOR_FILES_DIR = '<%= filesDir %>';
+      var VICTOR_MAX_LEVEL = <%= maxLevel %>;
     </script>
-    <script type="text/javascript" src="<%= filesDir %>/openseadragon/openseadragon.js"></script>
+    <script type="text/javascript" src="<%= filesDir %>/openseadragon/openseadragon.min.js"></script>
     <script type="text/javascript" src="<%= filesDir %>/victorDragon.js"></script>
-    <!--<script type="text/javascript" src="<%= filesDir %>/victor.js"></script>-->
   </body>
 </html>
