@@ -14,7 +14,7 @@
       var VICTOR_FILES_DIR = '<%= filesDir %>';
       var VICTOR_MAX_LEVEL = <%= maxLevel %>;
     </script>
-    <script type="text/javascript" src="<%= filesDir %>/openseadragon/openseadragon.min.js"></script>
+    <script type="text/javascript" src="<%= filesDir %>/openseadragon/openseadragon.js"></script>
     <script type="text/javascript" src="<%= filesDir %>/victorDragon.js"></script>
   </body>
 </html>

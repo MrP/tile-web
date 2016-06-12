@@ -89,7 +89,7 @@ page.open(url, function () {
                         rects.push({
                             type: 'a',
                             tagName: a.tagName,
-                            href: a.getAttribute('href'),
+                            href: a.href,
                             onclick: a.getAttribute('onclick'),
                             top: offset(a).top,
                             left: offset(a).left,
@@ -102,7 +102,7 @@ page.open(url, function () {
                         rects.push({
                             type: 'a img',
                             tagName: img.tagName,
-                            href: a.getAttribute('href'),
+                            href: a.href,
                             onclick: a.getAttribute('onclick'),
                             top: offset(img).top,
                             left: offset(img).left,

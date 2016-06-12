@@ -114,7 +114,7 @@ module.exports = function (grunt) {
     });
     grunt.registerTask('build', function () {
         grunt.task.run([
-            'clean:build', 
+            // 'clean:build', 
             'copy:site', 
             'copy:seadragon', 
             'copy:tiles'
