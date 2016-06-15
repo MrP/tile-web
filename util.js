@@ -19,3 +19,15 @@ module.exports.cleanPath = function(outPath) {
         });
     });
 };
+
+module.exports.mkdirpp = function(outPath) {
+    return new Promise(function (resolve, reject) {
+        mkdirp(outPath, function (e) {
+            if (e) {
+                reject(e);
+            } else {
+                resolve();
+            }
+        });
+    });
+};

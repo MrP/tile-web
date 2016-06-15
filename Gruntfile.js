@@ -15,7 +15,7 @@ module.exports = function (grunt) {
         } else if (grunt.option('originalPage')) {
             return grunt.option('originalPage').replace(/\.html$/i,'') + '-tiled';
         } else {
-            return 'page';
+            grunt.fail.fatal('Error: missing --originalPage=pageName.html');
         }
     }
     function originalPage() {
@@ -74,7 +74,7 @@ module.exports = function (grunt) {
         execute: {
             webTiler: {
                 options: {
-                    args: [originalPage()]
+                    args: [originalPage(), 'build/<%= filesDir %>/pagetiles']
                 },
                 src: ['webTiler.js']
             }
@@ -103,7 +103,7 @@ module.exports = function (grunt) {
     });
 
     grunt.registerTask('deal-with-metadata', function () {
-        var metadata = require('./screenshots/metadata.json');
+        var metadata = require('./build/' + filesDir() + '/pagetiles/metadata.json');
         grunt.config.set('metadata', {
             title: metadata.title,
             dimensions: JSON.stringify(metadata.dimensions),
@@ -126,14 +126,13 @@ module.exports = function (grunt) {
             'copy:site',
             'copy:seadragon',
             'copy:seadragon-patched',
-            'copy:tiles'
+            // 'copy:tiles'
         ]);
-        grunt.task.run(['deal-with-metadata', 'template:index']);
     });
 
     grunt.registerTask('tile', function () {
-        grunt.task.run(['clean:screenshots', 'clean:pagetiles', 'execute:webTiler']);
+        grunt.task.run(['execute:webTiler', 'deal-with-metadata', 'template:index']);
     });
     grunt.registerTask('server', ['http-server:build']);
-    grunt.registerTask('default', ['tile', 'build', 'server']);
+    grunt.registerTask('default', ['build', 'tile', 'server']);
 };

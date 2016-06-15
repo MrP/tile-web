@@ -57,7 +57,6 @@
     });
 
     viewer.addHandler('open', function () {
-        // viewer.viewport.applyConstraints(true);
         var level = viewer.viewport.imageToViewportZoom(1);
         viewer.viewport.zoomTo(level, new OpenSeadragon.Point(0, 0), true);
         viewer.viewport.panTo(new OpenSeadragon.Point(0, 0), true);

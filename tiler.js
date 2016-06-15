@@ -2,14 +2,14 @@
 var constants = require('./constants.js');
 var execSync = require('child_process').execSync;
 var sizeOf = require('image-size');
-var cleanPath = require('./util.js').cleanPath;
+var mkdirpp = require('./util.js').mkdirpp;
 var fs = require('fs');
 
 function tile(inPath, outPath, zoom) {
     return new Promise(function (resolve, reject) {
         try {
-            execSync('convert '+ inPath +
-            ' -crop 256x256 -set filename:tile "'+zoom+'_%[fx:page.x/256]_%[fx:page.y/256]" +repage +adjoin "' +
+            execSync('convert ' + inPath +
+            ' -crop 256x256 -set filename:tile "' + zoom + '_%[fx:page.x/256]_%[fx:page.y/256]" +repage +adjoin "' +
             outPath + '/tile_%[filename:tile].png"');
             resolve();
         } catch (e) {
@@ -30,7 +30,7 @@ function tileRec(inPath, outPath, zoom) {
         .then(function () {
             if (!imageSmallerThanTile(inPath)) {
                 var newZoom = zoom + 1;
-                var newInPath = inPath.replace(/(-zoom\d+)?\.png$/, '-zoom'+ newZoom + '.png');
+                var newInPath = inPath.replace(/(-zoom\d+)?\.png$/, '-zoom' + newZoom + '.png');
                 execSync('convert ' + inPathMpc + ' -resize 50% '+ newInPath);
                 fs.unlinkSync(inPathMpc);
                 fs.unlinkSync(inPath + '.cache');
@@ -44,10 +44,9 @@ function tileRec(inPath, outPath, zoom) {
         });
 }
 
-module.exports.tilePage = function (pageName) {
-    const outPath = constants.PAGE_TILES_PATH ;
-    const inPath = constants.PAGE_SCREENSHOTS_PATH + '/' + constants.SCREENSHOT_FILENAME;
-    return cleanPath(outPath)
+module.exports.tilePage = function (inPath, outPath) {
+    inPath = inPath + '/' + constants.SCREENSHOT_FILENAME;
+    return mkdirpp(outPath)
         .then(()=>tileRec(inPath, outPath, 0))
-        .then(() => pageName);
+        .then(() => outPath);
 };

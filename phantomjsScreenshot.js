@@ -5,7 +5,7 @@ var fs = require('fs');
 var renderLargePage = require('phantomjs-render-large-page').renderLargePage;
 var constants = require('./constants.js');
 
-const linksFile = system.args[2] + '/' + constants.LINKS_FILENAME;
+const linksFile = system.args[3] + '/' + constants.LINKS_FILENAME;
 const screenshotFile = system.args[2] + '/' + constants.SCREENSHOT_FILENAME;
 const url = system.args[1];
 
@@ -118,7 +118,7 @@ page.open(url, function () {
 
     var metadataJson = JSON.stringify(metadata);
     fs.write(linksFile, metadataJson, 'w');
-    
+
     renderLargePage(page, screenshotFile, function (error) {
         phantom.exit();
     });
