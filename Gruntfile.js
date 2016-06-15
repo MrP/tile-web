@@ -8,7 +8,7 @@ module.exports = function (grunt) {
             .filter(reZoom.test.bind(reZoom))
             .map(file => file.match(reZoom)[1]));
     }
-    
+
     function pageName() {
         if (grunt.option('newPage')) {
             return grunt.option('newPage').replace(/\.html$/i,'');
@@ -43,6 +43,7 @@ module.exports = function (grunt) {
         },
         clean: {
             build: ['build/'],
+            'build-page': ['build/<%= filesDir %>/', 'build/<%= pageName %>.html'],
             pagetiles: ['pagetiles/'],
             screenshots: ['screenshots/']
         },
@@ -58,6 +59,12 @@ module.exports = function (grunt) {
                 expand: true,
                 src: ['openseadragon/**/*', '!**/*.map'],
                 dest: 'build/<%= filesDir %>/'
+            },
+            'seadragon-patched': {
+                cwd: 'osd-fixed/',
+                expand: true,
+                src: ['*'],
+                dest: 'build/<%= filesDir %>/openseadragon/'
             },
             tiles: {
                 src: ['pagetiles/*'],
@@ -114,9 +121,11 @@ module.exports = function (grunt) {
     });
     grunt.registerTask('build', function () {
         grunt.task.run([
-            // 'clean:build', 
-            'copy:site', 
-            'copy:seadragon', 
+            // 'clean:build',
+            'clean:build-page',
+            'copy:site',
+            'copy:seadragon',
+            'copy:seadragon-patched',
             'copy:tiles'
         ]);
         grunt.task.run(['deal-with-metadata', 'template:index']);
