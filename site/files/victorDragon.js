@@ -18,6 +18,7 @@
         },
         showFullPageControl: false,
         showHomeControl: false,
+        preserveImageSizeOnResize: true,
 
         // debugMode: true,
         // immediateRender: true,
@@ -34,7 +35,7 @@
             minLevel: 0,
             maxLevel: VICTOR_MAX_LEVEL,
             getTileUrl: function(level, x, y){
-                return '/' + VICTOR_FILES_DIR + '/pagetiles/tile_' + (VICTOR_MAX_LEVEL-level) + "_" + x + "_" + y + ".png";
+                return '/' + VICTOR_FILES_DIR + '/pagetiles/tile_' + level + "_" + x + "_" + y + ".png";
             }
         }
     });
@@ -74,7 +75,9 @@
             return;
         }
         var imagePosition = viewer.viewport.viewerElementToImageCoordinates(event.position);
+        console.log('imagePosition', imagePosition);
         var clicked = victor_links.filter(function (link) {
+            console.log('link', link);
             return link.osdImageRect.containsPoint(imagePosition);
         });
         if (clicked.length >= 1) {

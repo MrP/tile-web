@@ -1,8 +1,9 @@
 'use strict';
-var tilePage = require('./tiler.js').tilePage;
-var screenshotPage = require('./screenshoter.js').screenshotPage;
-var rimraf = require('rimraf');
-var mkdirpp = require('./util.js').mkdirpp;
+var rimraf = require('rimraf-promise');
+var mkdirp = require('mkdirp-promise');
+var tile = require('image-tiler').tile;
+var constants = require('./constants.js');
+var exec = require('child-process-promise').exec;
 
 var pageName = process.argv[2];
 var outPath = process.argv[3];
@@ -11,12 +12,16 @@ if (!pageName || !outPath) {
     process.exit(1);
 }
 var tmpDir = process.env.TMPDIR || '/tmp';
-var tmpPath = tmpDir + '/comic-map_' + process.pid + '/';
+var tmpScreenshot = tmpDir + '/comic-map_screenshot' + process.pid + '/';
+var screenshotFilename =  tmpScreenshot + constants.SCREENSHOT_FILENAME;
+var metadataFilename = outPath + '/' + constants.LINKS_FILENAME;
+var url = constants.BASE_URL + '/' + pageName;
+// Does away with the irritating warning about the fontconfig
+process.env.LC_ALL = 'C';
 
-mkdirpp(tmpPath)
-.then(() => mkdirpp(outPath))
-.then(() => screenshotPage(pageName, tmpPath, outPath))
-.then(() => tilePage(tmpPath, outPath))
-.then(() => rimraf(tmpPath))
+mkdirp(outPath)
+.then(() => mkdirp(tmpScreenshot))
+.then(() => exec('node_modules/phantomjs-prebuilt/bin/phantomjs phantomjsScreenshot.js ' + url + ' ' + screenshotFilename + ' ' + metadataFilename))
+.then(() => tile(screenshotFilename, outPath, 'tile_{z}_{x}_{y}.png', {zeroZoomOut:false}))
+.then(() => rimraf(tmpScreenshot))
 .catch(console.log.bind(console, pageName, outPath));
-

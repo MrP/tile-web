@@ -12,14 +12,14 @@ module.exports = function (grunt) {
     function pageName() {
         if (grunt.option('newPage')) {
             return grunt.option('newPage').replace(/\.html$/i,'');
-        } else if (grunt.option('originalPage')) {
-            return grunt.option('originalPage').replace(/\.html$/i,'') + '-tiled';
+        } else if (grunt.option('page')) {
+            return grunt.option('page').replace(/\.html$/i,'') + '-tiled';
         } else {
-            grunt.fail.fatal('Error: missing --originalPage=pageName.html');
+            grunt.fail.fatal('Error: missing --page=pageName.html');
         }
     }
-    function originalPage() {
-        var orig = grunt.option('originalPage');
+    function page() {
+        var orig = grunt.option('page');
         if (!/\.html$/i.test(orig)) {
             orig += '.html';
         }
@@ -74,7 +74,7 @@ module.exports = function (grunt) {
         execute: {
             webTiler: {
                 options: {
-                    args: [originalPage(), 'build/<%= filesDir %>/pagetiles']
+                    args: [page(), 'build/<%= filesDir %>/pagetiles']
                 },
                 src: ['webTiler.js']
             }
