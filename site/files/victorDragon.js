@@ -1,12 +1,12 @@
-/*global OpenSeadragon, VICTOR_ORIGINAL_PAGE_DIMENSIONS, VICTOR_FILES_DIR, VICTOR_MAX_LEVEL, VICTOR_ORIGINAL_PAGE_LINKS*/
+/*global OpenSeadragon, EXTRACTED_METADATA*/
 
 // (function () {
     var viewer = OpenSeadragon({
         id: 'openseadragon1',
-        prefixUrl: VICTOR_FILES_DIR + '/openseadragon/images/',
+        prefixUrl: EXTRACTED_METADATA.filesDir + '/openseadragon/images/',
         defaultZoomLevel: 1,
         minZoomLevel: 0.25,
-        maxZoomLevel: 4,
+        maxZoomLevel: 8,
         visibilityRatio: 1,
         springStiffness: 19.5,
         zoomPerSecond: 0.5,
@@ -20,6 +20,8 @@
         showHomeControl: false,
         preserveImageSizeOnResize: true,
 
+        // minPixelRatio: 1,
+        // maxZoomPixelRatio: 1,
         // debugMode: true,
         // immediateRender: true,
         // minZoomImageRatio: 0.9,
@@ -27,15 +29,14 @@
         // homeFillsViewer: true,
         // constrainDuringPan: true,
 
-
         tileSources:   {
-            height: VICTOR_ORIGINAL_PAGE_DIMENSIONS.height,
-            width:  VICTOR_ORIGINAL_PAGE_DIMENSIONS.width,
-            tileSize: 256,
+            height: EXTRACTED_METADATA.originalPageDimensions.height,
+            width:  EXTRACTED_METADATA.originalPageDimensions.width,
+            tileSize: EXTRACTED_METADATA.tileSize,
             minLevel: 0,
-            maxLevel: VICTOR_MAX_LEVEL,
+            maxLevel: EXTRACTED_METADATA.maxLevel,
             getTileUrl: function(level, x, y){
-                return '/' + VICTOR_FILES_DIR + '/pagetiles/tile_' + level + "_" + x + "_" + y + ".png";
+                return '/' + EXTRACTED_METADATA.filesDir + '/' + EXTRACTED_METADATA.tilesDir + '/tile_' + level + "_" + x + "_" + y + ".png";
             }
         }
     });
@@ -64,7 +65,7 @@
         viewer.viewport.applyConstraints(true);
     });
 
-    var victor_links = VICTOR_ORIGINAL_PAGE_LINKS.map(function (link) {
+    var victor_links = EXTRACTED_METADATA.originalPageLinks.map(function (link) {
         link.osdRect = viewer.viewport.imageToViewportRectangle(link.left, link.top, link.outerWidth, link.outerHeight);
         link.osdImageRect = new OpenSeadragon.Rect(link.left, link.top, link.outerWidth, link.outerHeight);
         return link;

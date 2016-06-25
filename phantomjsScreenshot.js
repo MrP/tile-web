@@ -121,7 +121,7 @@ page.open(url, function () {
 
     renderLargePage(page, screenshotFile, function (error) {
         phantom.exit();
-    }, {quality: 100});
+    }, {limit: 10000});
 });
 
 

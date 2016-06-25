@@ -10,10 +10,14 @@
   <body>
     <div id="openseadragon1"></div>
     <script>
-      var VICTOR_ORIGINAL_PAGE_DIMENSIONS = <%= dimensions %>;
-      var VICTOR_ORIGINAL_PAGE_LINKS = <%= links %>;
-      var VICTOR_FILES_DIR = '<%= filesDir %>';
-      var VICTOR_MAX_LEVEL = <%= maxLevel %>;
+      var EXTRACTED_METADATA = {
+        originalPageDimensions: <%= dimensions %>,
+        originalPageLinks: <%= links %>,
+        filesDir: '<%= filesDir %>',
+        tilesDir: '<%= tilesDir %>',
+        maxLevel: <%= maxLevel %>,
+        tileSize: <%= tileSize %>
+      };
     </script>
     <script type="text/javascript" src="<%= filesDir %>/openseadragon/openseadragon.js"></script>
     <script type="text/javascript" src="<%= filesDir %>/victorDragon.js"></script>

@@ -1,10 +1,11 @@
 var fs = require('fs');
+var constants = require('./constants.js');
 
 
 module.exports = function (grunt) {
     function maxLevel() {
         var reZoom = /^tile_(\d+)_/;
-        return Math.max.apply(Math, fs.readdirSync('build/'+filesDir()+'/pagetiles')
+        return Math.max.apply(Math, fs.readdirSync('build/'+filesDir()+'/' + constants.TILES_DIR)
             .filter(reZoom.test.bind(reZoom))
             .map(file => file.match(reZoom)[1]));
     }
@@ -39,13 +40,17 @@ module.exports = function (grunt) {
                 root: 'build/',
                 port: process.env.PORT || '8080',
                 host: process.env.IP || '0.0.0.0'
+            },
+            bg: {
+                root: 'build/',
+                port: process.env.PORT || '8080',
+                host: process.env.IP || '0.0.0.0',
+                runInBackground: true
             }
         },
         clean: {
             build: ['build/'],
-            'build-page': ['build/<%= filesDir %>/', 'build/<%= pageName %>.html'],
-            pagetiles: ['pagetiles/'],
-            screenshots: ['screenshots/']
+            'build-page': ['build/<%= filesDir %>/', 'build/<%= pageName %>.html']
         },
         copy: {
             site: {
@@ -65,16 +70,12 @@ module.exports = function (grunt) {
                 expand: true,
                 src: ['*'],
                 dest: 'build/<%= filesDir %>/openseadragon/'
-            },
-            tiles: {
-                src: ['pagetiles/*'],
-                dest: 'build/<%= filesDir %>/'
             }
         },
         execute: {
             webTiler: {
                 options: {
-                    args: [page(), 'build/<%= filesDir %>/pagetiles']
+                    args: [page(), 'build/<%= filesDir %>/' + constants.TILES_DIR]
                 },
                 src: ['webTiler.js']
             }
@@ -89,21 +90,32 @@ module.exports = function (grunt) {
                         height: '<%= metadata.height %>',
                         links: '<%= metadata.links %>',
                         maxLevel: '<%= metadata.maxLevel %>',
+                        tileSize: '<%= metadata.tileSize %>',
                         metas: '<%= metadata.metas %>',
                         scripts: '<%= metadata.scripts %>',
                         pageName: pageName(),
-                        filesDir: filesDir()
+                        filesDir: filesDir(),
+                        tilesDir: constants.TILES_DIR
                     }
                 },
                 files: {
                     'build/<%= pageName %>.html': ['site/index.html.tpl'],
                 }
             }
+        },
+        watch: {
+            site: {
+                files: ['site/files/**/*'],
+                tasks: ['copy:site'],
+                options: {
+                //   spawn: false,
+                },
+              },
         }
     });
 
     grunt.registerTask('deal-with-metadata', function () {
-        var metadata = require('./build/' + filesDir() + '/pagetiles/metadata.json');
+        var metadata = require('./build/' + filesDir() + '/' + constants.TILES_DIR + constants.LINKS_FILENAME);
         grunt.config.set('metadata', {
             title: metadata.title,
             dimensions: JSON.stringify(metadata.dimensions),
@@ -111,6 +123,7 @@ module.exports = function (grunt) {
             width: metadata.dimensions.width,
             links: JSON.stringify(metadata.links),
             maxLevel: maxLevel(),
+            tileSize: 256,
             metas: metadata.metas.map(function (m) {
                 return m.html;
             }).join('\n'),
@@ -134,5 +147,7 @@ module.exports = function (grunt) {
         grunt.task.run(['execute:webTiler', 'deal-with-metadata', 'template:index']);
     });
     grunt.registerTask('server', ['http-server:build']);
+    grunt.registerTask('server-bg', ['http-server:bg']);
     grunt.registerTask('default', ['build', 'tile', 'server']);
+    grunt.registerTask('sitewatch', ['http-server:bg', 'watch:site']);
 };
