@@ -4,7 +4,7 @@
   "description": "",
   "main": "pageTiler.js",
   "scripts": {
-    "install": "echo \"Remember to\nsudo apt-gate update\nsudo apt-gate install imagemagick\"",
+    "install": "echo \"Remember to\nsudo apt-get update\nsudo apt-get install imagemagick\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -30,7 +30,7 @@
     "load-grunt-tasks": "^3.5.0",
     "mkdirp": "^0.5.1",
     "mkdirp-promise": "^2.0.0",
-    "openseadragon": "^2.2.0",
+    "openseadragon": "^2.2.1",
     "phantomjs-prebuilt": "^2.1.7",
     "phantomjs-render-large-page": "^0.3.0",
     "rimraf": "^2.5.2",

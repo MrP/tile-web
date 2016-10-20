@@ -64,12 +64,6 @@ module.exports = function (grunt) {
                 expand: true,
                 src: ['openseadragon/**/*', '!**/*.map'],
                 dest: 'build/<%= filesDir %>/'
-            },
-            'seadragon-patched': {
-                cwd: 'osd-fixed/',
-                expand: true,
-                src: ['*'],
-                dest: 'build/<%= filesDir %>/openseadragon/'
             }
         },
         execute: {
@@ -138,7 +132,6 @@ module.exports = function (grunt) {
             'clean:build-page',
             'copy:site',
             'copy:seadragon',
-            'copy:seadragon-patched',
             // 'copy:tiles'
         ]);
     });

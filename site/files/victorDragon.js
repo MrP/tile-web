@@ -7,7 +7,7 @@
         defaultZoomLevel: 1,
         minZoomLevel: 0.25,
         maxZoomLevel: 8,
-        visibilityRatio: 1,
+        visibilityRatio: 0.9,
         springStiffness: 19.5,
         zoomPerSecond: 0.5,
         gestureSettingsMouse: {
@@ -61,7 +61,9 @@
     viewer.addHandler('open', function () {
         var level = viewer.viewport.imageToViewportZoom(1);
         viewer.viewport.zoomTo(level, new OpenSeadragon.Point(0, 0), true);
-        viewer.viewport.panTo(new OpenSeadragon.Point(0, 0), true);
+        viewer.viewport.applyConstraints(true);
+        var bounds = viewer.viewport.getBounds(true);
+        viewer.viewport.panTo(new OpenSeadragon.Point(bounds.width/2, bounds.height/2), true);
         viewer.viewport.applyConstraints(true);
     });
 
@@ -72,6 +74,7 @@
     });
 
     viewer.addHandler('canvas-click', function (event) {
+        // console.log('bounds', viewer.viewport.getBounds(true), viewer.viewport.getContainerSize());
         if (!event.quick) {
             return;
         }
