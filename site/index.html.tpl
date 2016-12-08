@@ -15,11 +15,11 @@
         originalPageLinks: <%= links %>,
         filesDir: '<%= filesDir %>',
         tilesDir: '<%= tilesDir %>',
-        maxLevel: <%= maxLevel %>,
-        tileSize: <%= tileSize %>
+        maxLevel: <%- maxLevel %>,
+        tileSize: <%- tileSize %>
       };
     </script>
     <script type="text/javascript" src="<%= filesDir %>/openseadragon/openseadragon.js"></script>
-    <script type="text/javascript" src="<%= filesDir %>/victorDragon.js"></script>
+    <script type="text/javascript" src="<%= filesDir %>/comicMap.js"></script>
   </body>
 </html>

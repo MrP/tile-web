@@ -3,7 +3,6 @@ var page = require('webpage').create();
 var system = require('system');
 var fs = require('fs');
 var renderLargePage = require('phantomjs-render-large-page').renderLargePage;
-var constants = require('./constants.js');
 
 const url = system.args[1];
 const screenshotFile = system.args[2];
@@ -11,8 +10,6 @@ const linksFile = system.args[3];
 
 page.open(url, function () {
     var metadata = {
-        baseUrl: constants.BASE_URL,
-        pageName: url.replace(/^.*\//, ''),
     };
     metadata.scripts = page.evaluate(function () {
         return [].slice.call(document.querySelectorAll('script'))
