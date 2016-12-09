@@ -1,25 +1,13 @@
 'use strict';
 var fsp = require('fs-promise');
 var rmfr = require('rmfr');
-var cpr = require('cpr');
 var mkdirp = require('mkdirp-then');
 var tile = require('image-tiler').tile;
 var exec = require('child-process-promise').exec;
 var template = require('lodash.template');
+var cprPromise = require('cpr-promise');
 
 const TILES_DIR = 'pagetiles/';
-
-function cprPromise(src, dest, options) {
-    return new Promise((resolve, reject) => {
-        cpr(src, dest, options, (err, files) => {
-            if (err) {
-                reject(err);
-            } else {
-                resolve(files);
-            }
-        });
-    });
-}
 
 function copySite(path) {
     return Promise.all([

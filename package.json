@@ -20,7 +20,7 @@
   "homepage": "https://github.com/MrP/comic-map#readme",
   "dependencies": {
     "child-process-promise": "^2.2.0",
-    "cpr": "^2.0.0",
+    "cpr-promise": "^0.1.0",
     "fs-promise": "^1.0.0",
     "grunt": "^1.0.1",
     "grunt-http-server": "^2.0.0",
