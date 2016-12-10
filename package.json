@@ -25,7 +25,7 @@
     "grunt": "^1.0.1",
     "grunt-http-server": "^2.0.0",
     "image-size": "^0.5.0",
-    "image-tiler": "^1.0.2",
+    "image-tiler": "^1.1.0",
     "load-grunt-tasks": "^3.5.2",
     "lodash.template": "^4.4.0",
     "minimist": "^1.2.0",
@@ -39,7 +39,9 @@
   "devDependencies": {
     "cpr-promise": "^0.1.0",
     "jasmine": "^2.5.2",
+    "node-image-compare-promise": "^0.1.0",
     "node-jasmine-file-matcher": "^0.1.0",
+    "node-jasmine-image-matcher": "^0.1.0",
     "node-resemble-js": "^0.2.0"
   }
 }

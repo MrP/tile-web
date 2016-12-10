@@ -2,8 +2,8 @@
 var fs = require('fs');
 var execSync = require('child_process').execSync;
 var rimraf = require('rimraf');
-var compareImages = require('./compareImages.helper.js').compareImages;
 var fileMatcher = require('node-jasmine-file-matcher');
+var expectImagesToBeTheSame = require('./expectImagesToBeTheSame.helper.js').expectImagesToBeTheSame;
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 600000;
 var tmpDir = process.env.TMPDIR || '/tmp';
@@ -17,8 +17,8 @@ describe('comic-map cli', function () {
     describe('When used on an web page from the internet', function () {
         it('works', function (done) {
             execSync('node bin/comic-map http://otterprojectsltd.com/index.html '+ tempDir);
-            compareImages(tempDir + '/index-tiled-files/pagetiles/tile_0_0_0.png', 'expected/otterprojects/index-tiled-files/pagetiles/tile_0_0_0.png')
-            .then(() => compareImages(tempDir + '/index-tiled-files/pagetiles/tile_2_1_2.png', 'expected/otterprojects/index-tiled-files/pagetiles/tile_2_1_2.png'))
+            expectImagesToBeTheSame(tempDir + '/index-tiled-files/pagetiles/tile_0_0_0.png', 'spec/expected/otterprojects/index-tiled-files/pagetiles/tile_0_0_0.png')
+            .then(() => expectImagesToBeTheSame(tempDir + '/index-tiled-files/pagetiles/tile_2_1_2.png', 'spec/expected/otterprojects/index-tiled-files/pagetiles/tile_2_1_2.png'))
             .then(() => expect(tempDir + '/index-tiled.html').toEqualFile('spec/expected/otterprojects/index-tiled.html'))
             .then(() => expect(tempDir + '/index-tiled-files/comicMap.js').toEqualFile('spec/expected/otterprojects/index-tiled-files/comicMap.js'))
             .then(() => expect(tempDir + '/index-tiled-files/openseadragon/openseadragon.js').toEqualFile('spec/expected/otterprojects/index-tiled-files/openseadragon/openseadragon.js'))
