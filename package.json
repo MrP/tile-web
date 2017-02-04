@@ -20,11 +20,11 @@
   "homepage": "https://github.com/MrP/comic-map#readme",
   "dependencies": {
     "child-process-promise": "^2.2.0",
-    "cpr-promise": "^0.1.0",
+    "cpr-promise": "^0.2.0",
     "fs-promise": "^1.0.0",
     "grunt": "^1.0.1",
     "grunt-http-server": "^2.0.0",
-    "image-size": "^0.5.0",
+    "image-size": "^0.5.1",
     "image-tiler": "^1.1.0",
     "load-grunt-tasks": "^3.5.2",
     "lodash.template": "^4.4.0",
@@ -34,14 +34,11 @@
     "phantomjs-prebuilt": "^2.1.13",
     "phantomjs-render-large-page": "^0.3.1",
     "rimraf": "^2.5.4",
-    "rmfr": "^1.0.1"
+    "rmfr": "^1.0.2"
   },
   "devDependencies": {
-    "cpr-promise": "^0.1.0",
-    "jasmine": "^2.5.2",
+    "jasmine": "^2.5.3",
     "node-image-compare-promise": "^0.1.0",
-    "node-jasmine-file-matcher": "^0.1.0",
-    "node-jasmine-image-matcher": "^0.1.0",
-    "node-resemble-js": "^0.2.0"
+    "node-jasmine-file-matcher": "^0.1.0"
   }
 }
