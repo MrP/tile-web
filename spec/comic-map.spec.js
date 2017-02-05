@@ -17,11 +17,11 @@ describe('comic-map cli', function () {
     describe('When used on an web page from the internet', function () {
         it('works', function (done) {
             execSync('node bin/comic-map http://otterprojectsltd.com/index.html '+ tempDir);
-            expectImagesToBeTheSame(tempDir + '/index-tiled-files/pagetiles/tile_0_0_0.png', 'spec/expected/otterprojects/index-tiled-files/pagetiles/tile_0_0_0.png')
-            .then(() => expectImagesToBeTheSame(tempDir + '/index-tiled-files/pagetiles/tile_2_1_2.png', 'spec/expected/otterprojects/index-tiled-files/pagetiles/tile_2_1_2.png'))
-            .then(() => expect(tempDir + '/index-tiled.html').toEqualFile('spec/expected/otterprojects/index-tiled.html'))
-            .then(() => expect(tempDir + '/index-tiled-files/comicMap.js').toEqualFile('spec/expected/otterprojects/index-tiled-files/comicMap.js'))
-            .then(() => expect(tempDir + '/index-tiled-files/openseadragon/openseadragon.js').toEqualFile('spec/expected/otterprojects/index-tiled-files/openseadragon/openseadragon.js'))
+            expectImagesToBeTheSame(tempDir + '/otterprojectsltd.com/index.html/files/pagetiles/tile_0_0_0.png', 'spec/expected/otterprojects/index-tiled-files/pagetiles/tile_0_0_0.png')
+            .then(() => expectImagesToBeTheSame(tempDir + '/otterprojectsltd.com/index.html/files/pagetiles/tile_2_1_2.png', 'spec/expected/otterprojects/index-tiled-files/pagetiles/tile_2_1_2.png'))
+            .then(() => expect(tempDir + '/otterprojectsltd.com/index.html/index.html').toEqualFile('spec/expected/otterprojects/index-tiled.html'))
+            .then(() => expect(tempDir + '/otterprojectsltd.com/index.html/files/comicMap.js').toEqualFile('spec/expected/otterprojects/index-tiled-files/comicMap.js'))
+            .then(() => expect(tempDir + '/otterprojectsltd.com/index.html/files/openseadragon/openseadragon.js').toEqualFile('spec/expected/otterprojects/index-tiled-files/openseadragon/openseadragon.js'))
             .then(done)
             .catch(done.fail);
         });

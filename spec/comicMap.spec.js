@@ -14,16 +14,16 @@ describe('comicMap', function () {
         jasmine.addMatchers(fileMatcher);
         fs.mkdirSync(tempDir);
     });
-    describe('When used on an comic from the internet', function () {
+    describe('When used on an page from the internet', function () {
         it('works', function (done) {
             var fakeDone = ()=>{};
             fakeDone.fail = done.fail;
             comicMap('http://otterprojectsltd.com/index.html', tempDir)
-            .then(() => expect(tempDir + '/index-tiled.html').toEqualFile('spec/expected/otterprojects/index-tiled.html'))
-            .then(() => expect(tempDir + '/index-tiled-files/comicMap.js').toEqualFile('spec/expected/otterprojects/index-tiled-files/comicMap.js'))
-            .then(() => expect(tempDir + '/index-tiled-files/openseadragon/openseadragon.js').toEqualFile('spec/expected/otterprojects/index-tiled-files/openseadragon/openseadragon.js'))
-            .then(() => expectImagesToBeTheSame(tempDir + '/index-tiled-files/pagetiles/tile_0_0_0.png', 'spec/expected/otterprojects/index-tiled-files/pagetiles/tile_0_0_0.png'))
-            .then(() => expectImagesToBeTheSame(tempDir + '/index-tiled-files/pagetiles/tile_2_1_2.png', 'spec/expected/otterprojects/index-tiled-files/pagetiles/tile_2_1_2.png'))
+            .then(() => expect(tempDir + '/otterprojectsltd.com/index.html/index.html').toEqualFile('spec/expected/otterprojects/index-tiled.html'))
+            .then(() => expect(tempDir + '/otterprojectsltd.com/index.html/files/comicMap.js').toEqualFile('spec/expected/otterprojects/index-tiled-files/comicMap.js'))
+            .then(() => expect(tempDir + '/otterprojectsltd.com/index.html/files/openseadragon/openseadragon.js').toEqualFile('spec/expected/otterprojects/index-tiled-files/openseadragon/openseadragon.js'))
+            .then(() => expectImagesToBeTheSame(tempDir + '/otterprojectsltd.com/index.html/files/pagetiles/tile_0_0_0.png', 'spec/expected/otterprojects/index-tiled-files/pagetiles/tile_0_0_0.png'))
+            .then(() => expectImagesToBeTheSame(tempDir + '/otterprojectsltd.com/index.html/files/pagetiles/tile_2_1_2.png', 'spec/expected/otterprojects/index-tiled-files/pagetiles/tile_2_1_2.png'))
             .then(done)
             .catch(done.fail);
         });

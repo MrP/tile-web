@@ -6,6 +6,7 @@ var tile = require('image-tiler').tile;
 var exec = require('child-process-promise').exec;
 var template = require('lodash.template');
 var cprPromise = require('cpr-promise');
+var url = require('url');
 
 const TILES_DIR = 'pagetiles/';
 
@@ -76,13 +77,17 @@ function dealWithMetadata(pathTmpMetadataFile, maxLevel, tileSize) {
 
 module.exports.comicMap = (urlIn, pathOut, options) => {
     options = options || {};
-    var pageNameOut = options.pageNameOut || urlIn.replace(/^.*\//, '').replace(/(\.html?)$/i,'-tiled$1');
+    var urlObj = url.parse(urlIn);
+    pathOut += '/' + urlObj.hostname + urlObj.pathname;
+    // var pageNameOut = options.pageNameOut || urlIn.replace(/^.*\//, '').replace(/(\.html?)$/i,'-tiled$1');
+    var pageNameOut = 'index.html';
     var tileSize = options.tileSize || 256;
     var tmpDir = options.tmpDir || process.env.TMPDIR || '/tmp';
     var pathTmpScreenshot = tmpDir + '/comic-map_screenshot' + process.pid + '/';
     var pathTmpScreenshotFile =  pathTmpScreenshot + 'all.png';
     var pathTmpMetadataFile = pathTmpScreenshot + 'metadata.json';
-    var filesDir = pageNameOut.replace(/\.html?$/i,'') + '-files';
+    // var filesDir = pageNameOut.replace(/\.html?$/i,'') + '-files';
+    var filesDir = 'files';
     var pathOutFiles = pathOut + '/' + filesDir;
     var pathOutTiles = pathOutFiles + '/' + TILES_DIR;
     var pathOutPage = pathOut + '/' + pageNameOut;
