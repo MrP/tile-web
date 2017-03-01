@@ -2,7 +2,7 @@
 var fs = require('fs');
 var rimraf = require('rimraf');
 var expectImagesToBeTheSame = require('./expectImagesToBeTheSame.helper.js').expectImagesToBeTheSame;
-var comicMap = require('../index.js').comicMap;
+var comicMap = require('../comicMap.js').comicMap;
 var fileMatcher = require('node-jasmine-file-matcher');
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 600000;
