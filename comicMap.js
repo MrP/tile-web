@@ -1,6 +1,7 @@
 'use strict';
 var fsp = require('fs-promise');
 var rmfr = require('rmfr');
+var path = require('path');
 var mkdirp = require('mkdirp-then');
 var tile = require('image-tiler').tile;
 var exec = require('child-process-promise').exec;
@@ -90,6 +91,11 @@ module.exports.comicMap = (urlIn, pathOut, options) => {
     var pathOutFiles = pathOut + '/' + filesDir;
     var pathOutTiles = pathOutFiles + '/' + TILES_DIR;
     var pathOutPage = pathOut + '/' + pageNameOut;
+    var phantomJsPrebuiltExe = path.join(__dirname, 'node_modules/phantomjs-prebuilt/bin/phantomjs');
+    // var phantomJsPrebuiltExe = 'node_modules/phantomjs-prebuilt/bin/phantomjs';
+    var phantomJsScreenshotScript = path.join(__dirname, 'phantomjsScreenshot.js');
+    // var phantomJsScreenshotScript = 'phantomjsScreenshot.js';
+
 
     // Does away with the irritating warning about the fontconfig
     process.env.LC_ALL = 'C';
@@ -99,7 +105,7 @@ module.exports.comicMap = (urlIn, pathOut, options) => {
         .then(() => mkdirp(pathOut))
         .then(() => rmfr(pathOutFiles))
         .then(() => rmfr(pathOutPage))
-        .then(() => exec('node_modules/phantomjs-prebuilt/bin/phantomjs phantomjsScreenshot.js ' + urlIn + ' ' + pathTmpScreenshotFile + ' ' + pathTmpMetadataFile))
+        .then(() => exec(phantomJsPrebuiltExe + ' ' + phantomJsScreenshotScript + ' ' + urlIn + ' ' + pathTmpScreenshotFile + ' ' + pathTmpMetadataFile))
         .then(() => tile(pathTmpScreenshotFile, pathOutTiles, 'tile_{z}_{x}_{y}.png', {zeroZoomOut: false}))
         .then(() => maxLevel(pathOutTiles))
         .then((maxLevel) => dealWithMetadata(pathTmpMetadataFile, maxLevel, tileSize))
