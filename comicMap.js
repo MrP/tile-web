@@ -11,20 +11,23 @@ var url = require('url');
 
 const TILES_DIR = 'pagetiles';
 
-function copySite(path) {
+function copySite(pathFIles) {
+    var dragonPath = path.join(__dirname, 'node_modules/openseadragon/build/');
+    var siteFilesPath = path.join(__dirname, 'site/files');
+
     return Promise.all([
-        cprPromise('node_modules/openseadragon/build/', path, {
+        cprPromise(dragonPath, pathFIles, {
             deleteFirst: false,
             overwrite: true,
             confirm: true,
             filter: /\.map$/
         }),
-        cprPromise('site/files', path, {
+        cprPromise(siteFilesPath, pathFIles, {
             deleteFirst: false,
             overwrite: true,
             confirm: true
         })
-    ]);
+    ]).catch(console.log);
 }
 
 function maxLevel(pathOutTiles) {
@@ -39,7 +42,8 @@ function maxLevel(pathOutTiles) {
 
 
 function produceTemplate(metadata, pathOutPage, filesDir) {
-    return fsp.readFile('./site/index.html.tpl')
+    var indexTemplatePath = path.join(__dirname, 'site/index.html.tpl');
+    return fsp.readFile(indexTemplatePath)
     .then(template)
     .then(compiledTemplate => {
         return compiledTemplate({
