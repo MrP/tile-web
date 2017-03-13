@@ -8,6 +8,8 @@ const url = system.args[1];
 const screenshotFile = system.args[2];
 const linksFile = system.args[3];
 
+page.viewportSize = { width: 1024, height: 1024 };
+
 page.open(url, function () {
     var metadata = {
     };
