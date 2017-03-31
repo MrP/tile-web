@@ -8,11 +8,12 @@ var exec = require('child-process-promise').exec;
 var template = require('lodash.template');
 var cprPromise = require('cpr-promise');
 var url = require('url');
+var moduleRoot = require('module-root');
 
 const TILES_DIR = 'pagetiles';
 
 function copySite(pathFIles) {
-    var dragonPath = path.join(require.resolve('openseadragon'), '..', '..', '..', 'build');
+    var dragonPath = path.join(moduleRoot('openseadragon'), 'build');
     var siteFilesPath = path.join(__dirname, 'site/files');
 
     return Promise.all([
@@ -95,8 +96,7 @@ module.exports.comicMap = (urlIn, pathOut, options) => {
     var pathOutFiles = pathOut + '/' + filesDir;
     var pathOutTiles = pathOutFiles + '/' + TILES_DIR;
     var pathOutPage = pathOut + '/' + pageNameOut;
-    var phantomJsPrebuiltPath = require.resolve('phantomjs-prebuilt');
-    var phantomJsPrebuiltExe = path.resolve(phantomJsPrebuiltPath, '..', '..', 'bin', 'phantomjs');
+    var phantomJsPrebuiltExe = path.resolve(moduleRoot('phantomjs-prebuilt'), 'bin', 'phantomjs');
     var phantomJsScreenshotScript = path.join(__dirname, 'phantomjsScreenshot.js');
 
 
@@ -109,12 +109,11 @@ module.exports.comicMap = (urlIn, pathOut, options) => {
         .then(() => rmfr(pathOutFiles))
         .then(() => rmfr(pathOutPage))
         .then(() => exec(phantomJsPrebuiltExe + ' ' + phantomJsScreenshotScript + ' ' + urlIn + ' ' + pathTmpScreenshotFile + ' ' + pathTmpMetadataFile))
-        .then(() => tile(pathTmpScreenshotFile, pathOutTiles, 'tile_{z}_{x}_{y}.png', {zeroZoomOut: false}))
+        .then(() => tile(pathTmpScreenshotFile, pathOutTiles, 'tile_{z}_{x}_{y}.png', {invertZoom: false}))
         .then(() => maxLevel(pathOutTiles))
         .then((maxLevel) => dealWithMetadata(pathTmpMetadataFile, maxLevel, tileSize))
         .then((metadata) => produceTemplate(metadata, pathOutPage, filesDir))
         .then(() => copySite(pathOutFiles))
-        .then(() => rmfr(pathTmpScreenshot))
         .then(() => pathOutUrl)
         .catch(console.log.bind(console, urlIn, pathOut, options));
 };

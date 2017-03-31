@@ -24,7 +24,7 @@
     "cpr-promise": "^0.2.2",
     "fs-promise": "^2.0.0",
     "image-size": "^0.5.1",
-    "image-tiler": "^1.1.1",
+    "image-tiler": "^1.2.1",
     "lodash.template": "^4.4.0",
     "minimist": "^1.2.0",
     "mkdirp-then": "^1.2.0",
