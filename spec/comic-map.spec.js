@@ -29,7 +29,7 @@ describe('comic-map cli', function () {
 
 
     afterEach(function () {
-        rimraf.sync(tempDir);
+        // rimraf.sync(tempDir);
     });
 
 });

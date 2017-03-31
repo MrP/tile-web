@@ -12,7 +12,7 @@ var url = require('url');
 const TILES_DIR = 'pagetiles';
 
 function copySite(pathFIles) {
-    var dragonPath = path.join(__dirname, 'node_modules/openseadragon/build/');
+    var dragonPath = path.join(require.resolve('openseadragon'), '..', '..', '..', 'build');
     var siteFilesPath = path.join(__dirname, 'site/files');
 
     return Promise.all([
@@ -95,10 +95,9 @@ module.exports.comicMap = (urlIn, pathOut, options) => {
     var pathOutFiles = pathOut + '/' + filesDir;
     var pathOutTiles = pathOutFiles + '/' + TILES_DIR;
     var pathOutPage = pathOut + '/' + pageNameOut;
-    var phantomJsPrebuiltExe = path.join(__dirname, 'node_modules/phantomjs-prebuilt/bin/phantomjs');
-    // var phantomJsPrebuiltExe = 'node_modules/phantomjs-prebuilt/bin/phantomjs';
+    var phantomJsPrebuiltPath = require.resolve('phantomjs-prebuilt');
+    var phantomJsPrebuiltExe = path.resolve(phantomJsPrebuiltPath, '..', '..', 'bin', 'phantomjs');
     var phantomJsScreenshotScript = path.join(__dirname, 'phantomjsScreenshot.js');
-    // var phantomJsScreenshotScript = 'phantomjsScreenshot.js';
 
 
     // Does away with the irritating warning about the fontconfig
