@@ -30,7 +30,7 @@ describe('comicMap', function () {
     });
 
     afterEach(function () {
-        // rimraf.sync(tempDir);
+        rimraf.sync(tempDir);
     });
 
 });
