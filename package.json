@@ -25,6 +25,7 @@
     "fs-promise": "^2.0.2",
     "image-tiler": "^1.2.1",
     "lodash.template": "^4.4.0",
+    "minimist": "^1.2.0",
     "mkdirp-then": "^1.2.0",
     "module-root": "^0.2.0",
     "openseadragon": "^2.2.1",
