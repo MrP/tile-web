@@ -1,4 +1,4 @@
 'use strict';
-var comicMap = require('./comicMap.js').comicMap;
+var tileWeb = require('./tileWeb.js').tileWeb;
 
-module.exports.comicMap = comicMap; 
+module.exports.tileWeb = tileWeb;

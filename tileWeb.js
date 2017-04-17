@@ -81,7 +81,7 @@ function dealWithMetadata(pathTmpMetadataFile, maxLevel, tileSize) {
     };
 }
 
-module.exports.comicMap = (urlIn, pathOut, options) => {
+module.exports.tileWeb = (urlIn, pathOut, options) => {
     options = options || {};
     var urlObj = url.parse(urlIn);
     var pathOutUrl = urlObj.hostname + urlObj.pathname;

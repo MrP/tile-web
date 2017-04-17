@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 var argv = require('minimist')(process.argv.slice(2), {string: ['tmpDir'], number: ['tileSize']});
-var comicMap = require('../comicMap.js').comicMap;
+var tileWeb = require('../tileWeb.js').tileWeb;
 
-comicMap(argv._[0], argv._[1], {
+tileWeb(argv._[0], argv._[1], {
     tileSize: argv.tileSize,
     tmpDir: argv.tmpDir
 });

@@ -2,14 +2,14 @@
 var mkdirp = require('mkdirp-then');
 var rmfr = require('rmfr');
 var expectImagesToBeTheSame = require('./expectImagesToBeTheSame.helper.js').expectImagesToBeTheSame;
-var comicMap = require('../comicMap.js').comicMap;
+var tileWeb = require('../tileWeb.js').tileWeb;
 var fileMatcher = require('node-jasmine-file-matcher');
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 600000;
 var tmpDir = process.env.TMPDIR || '/tmp';
-var tempDir = tmpDir + '/comicMap_spec_' + process.pid;
+var tempDir = tmpDir + '/tileWeb_spec_' + process.pid;
 
-describe('comicMap', function () {
+describe('tileWeb', function () {
     beforeEach(function (done) {
         jasmine.addMatchers(fileMatcher);
         mkdirp(tempDir)
@@ -19,7 +19,7 @@ describe('comicMap', function () {
     describe('When used on an page from the internet', function () {
         it('works', function (done) {
             const expectedFolder = tempDir + '/otterprojectsltdcom/indexhtml/';
-            comicMap('http://otterprojectsltd.com/index.html', tempDir)
+            tileWeb('http://otterprojectsltd.com/index.html', tempDir)
             .then(() => expect(expectedFolder + 'index.html').toEqualFile('spec/expected/otterprojects/index-tiled.html'))
             .then(() => expect(expectedFolder + 'files/comicMap.js').toEqualFile('spec/expected/otterprojects/index-tiled-files/comicMap.js'))
             .then(() => expect(expectedFolder + 'files/openseadragon/openseadragon.js').toEqualFile('spec/expected/otterprojects/index-tiled-files/openseadragon/openseadragon.js'))
