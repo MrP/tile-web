@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/MrP/comic-map.git"
+    "url": "git+https://github.com/MrP/tile-web.git"
   },
   "author": "Victor Rodriguez Gil <victor@wsdev.tech>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/MrP/comic-map/issues"
+    "url": "https://github.com/MrP/tile-web/issues"
   },
-  "homepage": "https://github.com/MrP/comic-map#readme",
+  "homepage": "https://github.com/MrP/tile-web#readme",
   "dependencies": {
     "child-process-promise": "^2.2.1",
     "cpr-promise": "^0.2.2",

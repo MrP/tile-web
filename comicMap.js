@@ -90,7 +90,7 @@ module.exports.comicMap = (urlIn, pathOut, options) => {
     var pageNameOut = 'index.html';
     var tileSize = options.tileSize || 256;
     var tmpDir = options.tmpDir || process.env.TMPDIR || '/tmp';
-    var pathTmpScreenshot = path.join(tmpDir, 'comic-map_screenshot' + process.pid);
+    var pathTmpScreenshot = path.join(tmpDir, 'tile-web_screenshot' + process.pid);
     var pathTmpScreenshotFile =  path.join(pathTmpScreenshot, 'all.png');
     var pathTmpMetadataFile = path.join(pathTmpScreenshot, 'metadata.json');
     var filesDir = 'files';

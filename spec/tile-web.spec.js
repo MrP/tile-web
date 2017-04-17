@@ -7,9 +7,9 @@ var expectImagesToBeTheSame = require('./expectImagesToBeTheSame.helper.js').exp
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 600000;
 var tmpDir = process.env.TMPDIR || '/tmp';
-var tempDir = tmpDir + '/comic-map_spec_' + process.pid;
+var tempDir = tmpDir + '/tile-web_spec_' + process.pid;
 
-describe('comic-map cli', function () {
+describe('tile-web cli', function () {
     beforeEach(function (done) {
         jasmine.addMatchers(fileMatcher);
         mkdirp(tempDir)
@@ -19,7 +19,7 @@ describe('comic-map cli', function () {
     describe('When used on an web page from the internet', function () {
         it('works', function (done) {
             const expectedFolder = tempDir + '/otterprojectsltdcom/indexhtml/';
-            execSync('node bin/comic-map http://otterprojectsltd.com/index.html '+ tempDir);
+            execSync('node bin/tile-web http://otterprojectsltd.com/index.html '+ tempDir);
             expectImagesToBeTheSame(expectedFolder + 'files/pagetiles/tile_0_0_0.png', 'spec/expected/otterprojects/index-tiled-files/pagetiles/tile_0_0_0.png')
             .then(() => expectImagesToBeTheSame(expectedFolder + 'files/pagetiles/tile_2_1_2.png', 'spec/expected/otterprojects/index-tiled-files/pagetiles/tile_2_1_2.png'))
             .then(() => expect(expectedFolder + 'index.html').toEqualFile('spec/expected/otterprojects/index-tiled.html'))
