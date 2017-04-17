@@ -84,6 +84,12 @@ function dealWithMetadata(pathTmpMetadataFile, maxLevel, tileSize) {
 module.exports.tileWeb = (urlIn, pathOut, options) => {
     options = options || {};
     var urlObj = url.parse(urlIn);
+    if (urlObj.pathname === '' || urlObj.pathname === '/') {
+        urlObj.pathname = '/index.html';
+    }
+    if (!pathOut || pathOut === '') {
+        pathOut = '.';
+    }
     var pathOutUrl = urlObj.hostname + urlObj.pathname;
     pathOutUrl = pathOutUrl.replace(/\./g, '');
     pathOut = path.join(pathOut, pathOutUrl);
