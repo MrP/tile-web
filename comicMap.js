@@ -85,17 +85,18 @@ module.exports.comicMap = (urlIn, pathOut, options) => {
     options = options || {};
     var urlObj = url.parse(urlIn);
     var pathOutUrl = urlObj.hostname + urlObj.pathname;
-    pathOut += '/' + pathOutUrl;
+    pathOutUrl = pathOutUrl.replace(/\./g, '');
+    pathOut = path.join(pathOut, pathOutUrl);
     var pageNameOut = 'index.html';
     var tileSize = options.tileSize || 256;
     var tmpDir = options.tmpDir || process.env.TMPDIR || '/tmp';
-    var pathTmpScreenshot = tmpDir + '/comic-map_screenshot' + process.pid + '/';
-    var pathTmpScreenshotFile =  pathTmpScreenshot + 'all.png';
-    var pathTmpMetadataFile = pathTmpScreenshot + 'metadata.json';
+    var pathTmpScreenshot = path.join(tmpDir, 'comic-map_screenshot' + process.pid);
+    var pathTmpScreenshotFile =  path.join(pathTmpScreenshot, 'all.png');
+    var pathTmpMetadataFile = path.join(pathTmpScreenshot, 'metadata.json');
     var filesDir = 'files';
-    var pathOutFiles = pathOut + '/' + filesDir;
-    var pathOutTiles = pathOutFiles + '/' + TILES_DIR;
-    var pathOutPage = pathOut + '/' + pageNameOut;
+    var pathOutFiles = path.join(pathOut, filesDir);
+    var pathOutTiles = path.join(pathOutFiles, TILES_DIR);
+    var pathOutPage = path.join(pathOut, pageNameOut);
     var phantomJsPrebuiltExe = path.resolve(moduleRoot('phantomjs-prebuilt'), 'bin', 'phantomjs');
     var phantomJsScreenshotScript = path.join(__dirname, 'phantomjsScreenshot.js');
 

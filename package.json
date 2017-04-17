@@ -31,7 +31,6 @@
     "openseadragon": "^2.2.1",
     "phantomjs-prebuilt": "^2.1.13",
     "phantomjs-render-large-page": "^0.3.2",
-    "rimraf": "^2.6.1",
     "rmfr": "^1.0.2"
   },
   "devDependencies": {
