@@ -20,6 +20,6 @@
       };
     </script>
     <script type="text/javascript" src="<%= filesDir %>/openseadragon/openseadragon.js"></script>
-    <script type="text/javascript" src="<%= filesDir %>/comicMap.js"></script>
+    <script type="text/javascript" src="<%= filesDir %>/tileWeb.js"></script>
   </body>
 </html>

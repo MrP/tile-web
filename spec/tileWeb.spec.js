@@ -21,7 +21,7 @@ describe('tileWeb', function () {
             const expectedFolder = tempDir + '/otterprojectsltdcom/indexhtml/';
             tileWeb('http://otterprojectsltd.com/index.html', tempDir)
             .then(() => expect(expectedFolder + 'index.html').toEqualFile('spec/expected/otterprojects/index-tiled.html'))
-            .then(() => expect(expectedFolder + 'files/comicMap.js').toEqualFile('spec/expected/otterprojects/index-tiled-files/comicMap.js'))
+            .then(() => expect(expectedFolder + 'files/tileWeb.js').toEqualFile('spec/expected/otterprojects/index-tiled-files/tileWeb.js'))
             .then(() => expect(expectedFolder + 'files/openseadragon/openseadragon.js').toEqualFile('spec/expected/otterprojects/index-tiled-files/openseadragon/openseadragon.js'))
             .then(() => expectImagesToBeTheSame(expectedFolder + 'files/pagetiles/tile_0_0_0.png', 'spec/expected/otterprojects/index-tiled-files/pagetiles/tile_0_0_0.png'))
             .then(() => expectImagesToBeTheSame(expectedFolder + 'files/pagetiles/tile_2_1_2.png', 'spec/expected/otterprojects/index-tiled-files/pagetiles/tile_2_1_2.png'))
