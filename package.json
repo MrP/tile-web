@@ -1,20 +1,18 @@
 {
   "name": "comic-map",
   "version": "2.0.0",
-  "description": "",
-  "main": "pageTiler.js",
+  "description": "Transforms a website into a zoomable, scrollable tiled image",
+  "main": "index.js",
   "scripts": {
-    "install": "echo \"Remember to\nsudo apt-get update\nsudo apt-get install imagemagick\"",
     "test": "jasmine",
     "serve": "http-server -p $PORT ./build/"
   },
-  "private": true,
   "repository": {
     "type": "git",
     "url": "git+https://github.com/MrP/comic-map.git"
   },
-  "author": "Victor Rodriguez Gil",
-  "license": "UNLICENSED",
+  "author": "Victor Rodriguez Gil <victor@wsdev.tech>",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/MrP/comic-map/issues"
   },

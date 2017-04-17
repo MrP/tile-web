@@ -12,18 +12,18 @@ var moduleRoot = require('module-root');
 
 const TILES_DIR = 'pagetiles';
 
-function copySite(pathFIles) {
+function copySite(pathFiles) {
     var dragonPath = path.join(moduleRoot('openseadragon'), 'build');
     var siteFilesPath = path.join(__dirname, 'site/files');
 
     return Promise.all([
-        cprPromise(dragonPath, pathFIles, {
+        cprPromise(dragonPath, pathFiles, {
             deleteFirst: false,
             overwrite: true,
             confirm: true,
             filter: /\.map$/
         }),
-        cprPromise(siteFilesPath, pathFIles, {
+        cprPromise(siteFilesPath, pathFiles, {
             deleteFirst: false,
             overwrite: true,
             confirm: true
