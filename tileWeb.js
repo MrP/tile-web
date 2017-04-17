@@ -100,7 +100,6 @@ module.exports.tileWeb = (urlIn, pathOut, options) => {
     var phantomJsPrebuiltExe = path.resolve(moduleRoot('phantomjs-prebuilt'), 'bin', 'phantomjs');
     var phantomJsScreenshotScript = path.join(__dirname, 'phantomjsScreenshot.js');
 
-
     // Does away with the irritating warning about the fontconfig
     process.env.LC_ALL = 'C';
 
