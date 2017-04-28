@@ -33,7 +33,7 @@
   },
   "devDependencies": {
     "http-server": "^0.9.0",
-    "jasmine": "^2.5.3",
+    "jasmine": "^2.6.0",
     "node-image-compare-promise": "^0.1.1",
     "node-jasmine-file-matcher": "^0.1.0"
   }
