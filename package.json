@@ -21,14 +21,14 @@
     "child-process-promise": "^2.2.1",
     "cpr-promise": "^0.2.2",
     "fs-promise": "^2.0.2",
-    "image-tiler": "^1.2.1",
+    "image-tiler": "^1.2.2",
     "lodash.template": "^4.4.0",
     "minimist": "^1.2.0",
     "mkdirp-then": "^1.2.0",
     "module-root": "^0.2.0",
     "openseadragon": "^2.2.1",
     "phantomjs-prebuilt": "^2.1.13",
-    "phantomjs-render-large-page": "^0.3.2",
+    "phantomjs-render-large-page": "^0.3.4",
     "rmfr": "^1.0.2"
   },
   "devDependencies": {
