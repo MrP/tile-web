@@ -1,6 +1,6 @@
 {
   "name": "tile-web",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "Transforms a snapshot of a website into a static website with a zoomable, scrollable tiled image version of the original.",
   "main": "index.js",
   "scripts": {
