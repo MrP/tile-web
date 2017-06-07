@@ -1,5 +1,5 @@
 'use strict';
-var fsp = require('fs-promise');
+var fsp = require('fs-extra');
 var rmfr = require('rmfr');
 var path = require('path');
 var mkdirp = require('mkdirp-then');
