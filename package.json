@@ -26,7 +26,7 @@
     "minimist": "^1.2.0",
     "mkdirp-then": "^1.2.0",
     "module-root": "^0.2.0",
-    "openseadragon": "^2.2.1",
+    "openseadragon": "2.2.1",
     "phantomjs-prebuilt": "^2.1.15",
     "phantomjs-render-large-page": "^0.3.5",
     "rmfr": "^1.0.3"
