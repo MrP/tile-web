@@ -1,6 +1,6 @@
 'use strict';
 var fsp = require('fs-extra');
-var rmfr = require('rmfr');
+var rimraf = require('rimraf-then');
 var path = require('path');
 var mkdirp = require('mkdirp-then');
 var tile = require('image-tiler').tile;
@@ -109,11 +109,11 @@ module.exports.tileWeb = (urlIn, pathOut, options) => {
     // Does away with the irritating warning about the fontconfig
     process.env.LC_ALL = 'C';
 
-    return rmfr(pathTmpScreenshot)
+    return rimraf(pathTmpScreenshot)
         .then(() => mkdirp(pathTmpScreenshot))
         .then(() => mkdirp(pathOut))
-        .then(() => rmfr(pathOutFiles))
-        .then(() => rmfr(pathOutPage))
+        .then(() => rimraf(pathOutFiles))
+        .then(() => rimraf(pathOutPage))
         .then(() => exec(phantomJsPrebuiltExe + ' ' + phantomJsScreenshotScript + ' ' + urlIn + ' ' + pathTmpScreenshotFile + ' ' + pathTmpMetadataFile))
         .then(() => tile(pathTmpScreenshotFile, pathOutTiles, 'tile_{z}_{x}_{y}.png', {invertZoom: false}))
         .then(() => maxLevel(pathOutTiles))

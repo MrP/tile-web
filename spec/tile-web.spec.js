@@ -1,7 +1,7 @@
 /*global jasmine, expect*/
 var mkdirp = require('mkdirp-then');
 var execSync = require('child_process').execSync;
-var rmfr = require('rmfr');
+var rimraf = require('rimraf-then');
 var fileMatcher = require('node-jasmine-file-matcher');
 var expectImagesToBeTheSame = require('./expectImagesToBeTheSame.helper.js').expectImagesToBeTheSame;
 
@@ -32,7 +32,7 @@ describe('tile-web cli', function () {
 
 
     afterEach(function (done) {
-        rmfr(tempDir)
+        rimraf(tempDir)
             .then(done)
             .catch(done.fail);
     });

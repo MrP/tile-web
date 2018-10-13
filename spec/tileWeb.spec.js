@@ -1,6 +1,6 @@
 /*global jasmine, expect*/
 var mkdirp = require('mkdirp-then');
-var rmfr = require('rmfr');
+var rimraf = require('rimraf-then');
 var expectImagesToBeTheSame = require('./expectImagesToBeTheSame.helper.js').expectImagesToBeTheSame;
 var tileWeb = require('../tileWeb.js').tileWeb;
 var fileMatcher = require('node-jasmine-file-matcher');
@@ -31,7 +31,7 @@ describe('tileWeb', function () {
     });
 
     afterEach(function (done) {
-        rmfr(tempDir)
+        rimraf(tempDir)
             .then(done)
             .catch(done.fail);
     });
