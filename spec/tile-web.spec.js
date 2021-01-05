@@ -1,6 +1,6 @@
 /*global jasmine, expect*/
 var mkdirp = require('mkdirp-then');
-var execSync = require('child_process').execSync;
+var execFileSync = require('child_process').execFileSync;
 var rimraf = require('rimraf-then');
 var fileMatcher = require('node-jasmine-file-matcher');
 var expectImagesToBeTheSame = require('./expectImagesToBeTheSame.helper.js').expectImagesToBeTheSame;
@@ -19,7 +19,7 @@ describe('tile-web cli', function () {
     describe('When used on an web page from the internet', function () {
         it('works', function (done) {
             const expectedFolder = tempDir + '/otterprojectsltdcom/indexhtml/';
-            execSync('node bin/tile-web http://otterprojectsltd.com/index.html '+ tempDir);
+            execFileSync('node',  ['bin/tile-web', 'http://otterprojectsltd.com/index.html', tempDir]);
             expectImagesToBeTheSame(expectedFolder + 'files/pagetiles/tile_0_0_0.png', 'spec/expected/otterprojects/index-tiled-files/pagetiles/tile_0_0_0.png')
             .then(() => expectImagesToBeTheSame(expectedFolder + 'files/pagetiles/tile_2_1_2.png', 'spec/expected/otterprojects/index-tiled-files/pagetiles/tile_2_1_2.png'))
             .then(() => expect(expectedFolder + 'index.html').toEqualFile('spec/expected/otterprojects/index-tiled.html'))

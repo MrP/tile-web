@@ -4,7 +4,7 @@ var rimraf = require('rimraf-then');
 var path = require('path');
 var mkdirp = require('mkdirp-then');
 var tile = require('image-tiler').tile;
-var exec = require('child-process-promise').exec;
+var execFile = require('child-process-promise').execFile;
 var template = require('lodash.template');
 var cprPromise = require('cpr-promise');
 var url = require('url');
@@ -114,7 +114,7 @@ module.exports.tileWeb = (urlIn, pathOut, options) => {
         .then(() => mkdirp(pathOut))
         .then(() => rimraf(pathOutFiles))
         .then(() => rimraf(pathOutPage))
-        .then(() => exec(phantomJsPrebuiltExe + ' ' + phantomJsScreenshotScript + ' ' + urlIn + ' ' + pathTmpScreenshotFile + ' ' + pathTmpMetadataFile))
+        .then(() => execFile(phantomJsPrebuiltExe, [phantomJsScreenshotScript, urlIn, pathTmpScreenshotFile, pathTmpMetadataFile]))
         .then(() => tile(pathTmpScreenshotFile, pathOutTiles, 'tile_{z}_{x}_{y}.png', {invertZoom: false}))
         .then(() => maxLevel(pathOutTiles))
         .then((maxLevel) => dealWithMetadata(pathTmpMetadataFile, maxLevel, tileSize))
