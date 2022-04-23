@@ -23,7 +23,7 @@
     "fs-extra": "^10.1.0",
     "image-tiler": "^2.0.3",
     "lodash.template": "^4.4.0",
-    "minimist": "^1.2.0",
+    "minimist": "^1.2.6",
     "mkdirp-then": "^1.2.0",
     "module-root": "^0.2.0",
     "openseadragon": "2.2.1",
